@@ -14,9 +14,6 @@ pub struct WhitelistDao<'info> {
     )]
     pub dao: Account<'info, Dao>,
 
-    /// CHECK: This is not dangerous
-    pub dao_authority: AccountInfo<'info>,
-
     #[account(mut)]
     pub authority: Signer<'info>,
 }
