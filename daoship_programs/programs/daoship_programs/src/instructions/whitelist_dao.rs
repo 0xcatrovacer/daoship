@@ -2,7 +2,7 @@ use anchor_lang::prelude::*;
 use std::str::FromStr;
 
 use crate::constants::DAOSHIP_ADMIN_PUBKEY;
-use crate::errors::ErrorCode;
+use crate::errors::ErrorCodes;
 use crate::state::*;
 
 #[derive(Accounts)]
@@ -25,7 +25,7 @@ pub fn handler(ctx: Context<WhitelistDao>) -> Result<()> {
     if *ctx.accounts.authority.to_account_info().key
         != Pubkey::from_str(DAOSHIP_ADMIN_PUBKEY).unwrap()
     {
-        return Err(ErrorCode::Unauthorized.into());
+        return Err(ErrorCodes::Unauthorized.into());
     }
 
     ctx.accounts.dao.is_whitelisted = true;

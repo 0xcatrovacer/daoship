@@ -1,4 +1,4 @@
-use crate::{errors::ErrorCode, state::*};
+use crate::{errors::ErrorCodes, state::*};
 use anchor_lang::prelude::*;
 use anchor_spl::token::{Mint, TokenAccount};
 
@@ -32,11 +32,11 @@ pub fn handler(ctx: Context<InitDao>, name: String, img_link: String) -> Result<
     let dao = &mut ctx.accounts.dao;
 
     if name.chars().count() > 30 {
-        return Err(ErrorCode::NameTooLong.into());
+        return Err(ErrorCodes::NameTooLong.into());
     }
 
     if img_link.chars().count() > 50 {
-        return Err(ErrorCode::LinkTooLong.into());
+        return Err(ErrorCodes::LinkTooLong.into());
     }
 
     dao.name = name;

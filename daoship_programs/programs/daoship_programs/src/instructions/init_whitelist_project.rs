@@ -1,6 +1,6 @@
 use anchor_lang::prelude::*;
 
-use crate::{state::*, errors::ErrorCode};
+use crate::{state::*, errors::ErrorCodes};
 
 #[derive(Accounts)]
 pub struct InitWhitelistProject<'info> {
@@ -31,7 +31,7 @@ pub struct InitWhitelistProject<'info> {
 
 pub fn handler(ctx: Context<InitWhitelistProject>) -> Result<()> {
     if *ctx.accounts.authority.key != ctx.accounts.project.authority.key() {
-        return Err(ErrorCode::Unauthorized.into())
+        return Err(ErrorCodes::Unauthorized.into())
     }
 
     let whitelist = &mut ctx.accounts.project_whitelist;

@@ -1,7 +1,7 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token::{Mint, TokenAccount};
 
-use crate::errors::ErrorCode;
+use crate::errors::ErrorCodes;
 use crate::state::*;
 
 #[derive(Accounts)]
@@ -34,11 +34,11 @@ pub fn handler(ctx: Context<InitProject>, name: String, img_link: String) -> Res
     let project = &mut ctx.accounts.project;
 
     if name.chars().count() > 30 {
-        return Err(ErrorCode::NameTooLong.into());
+        return Err(ErrorCodes::NameTooLong.into());
     }
 
     if img_link.chars().count() > 50 {
-        return Err(ErrorCode::LinkTooLong.into());
+        return Err(ErrorCodes::LinkTooLong.into());
     }
 
     project.name = name;
