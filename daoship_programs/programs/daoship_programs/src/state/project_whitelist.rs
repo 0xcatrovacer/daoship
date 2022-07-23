@@ -12,11 +12,15 @@ pub struct ProjectWhitelist {
 
     /// Whitelist status
     pub is_whitelisted: bool,
+
+    /// Bump
+    pub bump: u8,
 }
 
 impl ProjectWhitelist {
-    pub const LENGTH: usize = DISCRIMINATOR_LENGTH  // 8-byte discriminator
-     + PUBKEY_LENGTH  // DAO whitelisting the company
-     + PUBKEY_LENGTH  // Project being whitelisted
-     + BOOL_LENGTH; // Whitelist status
+    pub const LEN: usize = DISCRIMINATOR_LENGTH  // 8-byte discriminator
+     + PUBKEY_LENGTH                                // DAO whitelisting the company
+     + PUBKEY_LENGTH                                // Project being whitelisted
+     + BOOL_LENGTH                                  // Whitelist status
+     + BOOL_LENGTH; // Bump
 }
