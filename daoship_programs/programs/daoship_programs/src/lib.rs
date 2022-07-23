@@ -1,9 +1,9 @@
 use anchor_lang::prelude::*;
 
-pub mod constants;
-pub mod errors;
-pub mod instructions;
-pub mod state;
+mod constants;
+mod errors;
+mod instructions;
+mod state;
 
 use instructions::*;
 
@@ -27,5 +27,9 @@ pub mod daoship_programs {
 
     pub fn init_whitelist_project(ctx: Context<InitWhitelistProject>) -> Result<()> {
         instructions::init_whitelist_project::handler(ctx)
+    }
+
+    pub fn whitelist_project(ctx: Context<WhitelistProject>) -> Result<()> {
+        instructions::whitelist_project::handler(ctx)
     }
 }
