@@ -36,6 +36,9 @@ pub struct Dao {
 
     /// Whitelist status
     pub is_whitelisted: bool,
+
+    /// Bump
+    pub bump: u8,
 }
 
 impl Dao {
@@ -50,5 +53,6 @@ impl Dao {
         + DATA_LENGTH                                // Completed Hirings
         + DATA_LENGTH                                // Available Bounties
         + DATA_LENGTH                                // Completed Bounties
-        + BOOL_LENGTH; // Whitelist Status
+        + BOOL_LENGTH                                // Whitelist Status
+        + BOOL_LENGTH; // Bump
 }

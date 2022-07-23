@@ -4,7 +4,13 @@ use anchor_spl::token::{Mint, TokenAccount};
 
 #[derive(Accounts)]
 pub struct InitDao<'info> {
-    #[account(init, payer = authority, space = Dao::LEN)]
+    #[account(
+        init,
+        seeds = [b"dao", authority.key().as_ref()],
+        bump,
+        payer = authority, 
+        space = Dao::LEN
+    )]
     pub dao: Account<'info, Dao>,
 
     #[account(mut)]
@@ -44,6 +50,7 @@ pub fn handler(ctx: Context<InitDao>, name: String, img_link: String) -> Result<
     dao.available_bounites = 0;
     dao.completed_bounties = 0;
     dao.is_whitelisted = false;
+    dao.bump = *ctx.bumps.get("dao").unwrap();
 
     Ok(())
 }
