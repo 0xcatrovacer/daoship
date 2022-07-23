@@ -1,5 +1,7 @@
 use anchor_lang::prelude::*;
 
+use crate::constants::*;
+
 #[account]
 pub struct Project {
     /// Name of the Project
@@ -31,4 +33,18 @@ pub struct Project {
 
     /// Number of completed bounties
     pub completed_bounties: u64,
+}
+
+impl Project {
+    pub const LEN: usize = DISCRIMINATOR_LENGTH  // 8-byte discriminator
+        + NAME_LENGTH                            // Name of the Project
+        + IMAGE_LINK_LENGTH                      // Link of the Image
+        + PUBKEY_LENGTH                          // Project authority
+        + PUBKEY_LENGTH                          // Project vault
+        + PUBKEY_LENGTH                          // Vault mint
+        + DATA_LENGTH                            // Reputation
+        + DATA_LENGTH                            // Available jobs
+        + DATA_LENGTH                            // Completed hirings
+        + DATA_LENGTH                            // Available bounties
+        + DATA_LENGTH; // Completed bounties
 }
