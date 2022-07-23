@@ -1,5 +1,7 @@
 use anchor_lang::prelude::*;
 
+use crate::constants::*;
+
 #[account]
 pub struct Dao {
     /// Name of the DAO
@@ -46,9 +48,3 @@ impl Dao {
         + DATA_LENGTH                                // Available Bounties
         + DATA_LENGTH; // Completed Bounties
 }
-
-const DISCRIMINATOR_LENGTH: usize = 8;
-const NAME_LENGTH: usize = 30 * 4;
-const PUBKEY_LENGTH: usize = 32;
-const IMAGE_LINK_LENGTH: usize = 50;
-const DATA_LENGTH: usize = 8;
