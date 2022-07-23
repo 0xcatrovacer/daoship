@@ -6,4 +6,6 @@ pub enum ErrorCode {
     NameTooLong,
     #[msg("Link Too Long")]
     LinkTooLong,
+    #[msg("Unauthorized")]
+    Unauthorized,
 }
