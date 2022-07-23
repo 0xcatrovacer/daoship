@@ -31,6 +31,10 @@ pub fn handler(ctx: Context<WhitelistProject>) -> Result<()> {
         return Err(ErrorCodes::Unauthorized.into())
     }
 
+    if ctx.accounts.dao.is_whitelisted == false {
+        return Err(ErrorCodes::Unauthorized.into())
+    }
+
     let whitelist = &mut ctx.accounts.project_whitelist;
 
     whitelist.is_whitelisted = true;
