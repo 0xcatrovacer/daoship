@@ -16,4 +16,8 @@ pub mod daoship_programs {
     pub fn init_dao(ctx: Context<InitDao>, name: String, img_link: String) -> Result<()> {
         instructions::init_dao::handler(ctx, name, img_link)
     }
+
+    pub fn whitelist_dao(ctx: Context<WhitelistDao>) -> Result<()> {
+        instructions::whitelist_dao::handler(ctx)
+    }
 }
