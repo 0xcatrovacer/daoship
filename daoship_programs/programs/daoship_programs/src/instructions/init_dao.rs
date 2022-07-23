@@ -31,7 +31,7 @@ pub struct InitDao<'info> {
 pub fn handler(ctx: Context<InitDao>, name: String, img_link: String) -> Result<()> {
     let dao = &mut ctx.accounts.dao;
 
-    if dao.name.chars().count() > 30 {
+    if name.chars().count() > 30 {
         return Err(ErrorCode::NameTooLong.into());
     }
 

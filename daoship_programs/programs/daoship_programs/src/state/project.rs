@@ -33,6 +33,9 @@ pub struct Project {
 
     /// Number of completed bounties
     pub completed_bounties: u64,
+
+    /// Bump
+    pub bump: u8,
 }
 
 impl Project {
@@ -46,5 +49,6 @@ impl Project {
         + DATA_LENGTH                            // Available jobs
         + DATA_LENGTH                            // Completed hirings
         + DATA_LENGTH                            // Available bounties
-        + DATA_LENGTH; // Completed bounties
+        + DATA_LENGTH                            // Completed bounties
+        + BOOL_LENGTH; // Bump
 }

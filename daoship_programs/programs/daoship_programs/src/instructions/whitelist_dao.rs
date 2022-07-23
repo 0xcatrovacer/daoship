@@ -9,10 +9,13 @@ use crate::state::*;
 pub struct WhitelistDao<'info> {
     #[account(
         mut,
-        seeds = [b"dao", dao.authority.key().as_ref()],
+        seeds = [b"dao", dao_authority.key().as_ref()],
         bump = dao.bump,
     )]
     pub dao: Account<'info, Dao>,
+
+    /// CHECK: This is not dangerous
+    pub dao_authority: AccountInfo<'info>,
 
     #[account(mut)]
     pub authority: Signer<'info>,
