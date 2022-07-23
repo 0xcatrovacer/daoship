@@ -33,6 +33,9 @@ pub struct Dao {
 
     /// Number of completed bounties
     pub completed_bounties: u64,
+
+    /// Whitelist status
+    pub is_whitelisted: bool,
 }
 
 impl Dao {
@@ -46,5 +49,6 @@ impl Dao {
         + DATA_LENGTH                                // Available Jobs
         + DATA_LENGTH                                // Completed Hirings
         + DATA_LENGTH                                // Available Bounties
-        + DATA_LENGTH; // Completed Bounties
+        + DATA_LENGTH                                // Completed Bounties
+        + BOOL_LENGTH; // Whitelist Status
 }
