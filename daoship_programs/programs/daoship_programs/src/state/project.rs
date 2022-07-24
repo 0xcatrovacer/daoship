@@ -41,7 +41,7 @@ pub struct Project {
 impl Project {
     pub const LEN: usize = DISCRIMINATOR_LENGTH  // 8-byte discriminator
         + NAME_LENGTH                            // Name of the Project
-        + IMAGE_LINK_LENGTH                      // Link of the Image
+        + LINK_LENGTH                      // Link of the Image
         + PUBKEY_LENGTH                          // Project authority
         + PUBKEY_LENGTH                          // Project vault
         + PUBKEY_LENGTH                          // Vault mint

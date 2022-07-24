@@ -44,7 +44,7 @@ pub struct Dao {
 impl Dao {
     pub const LEN: usize = DISCRIMINATOR_LENGTH      // 8-byte discriminator
         + NAME_LENGTH                                // name
-        + IMAGE_LINK_LENGTH                          // Link of DAO's image
+        + LINK_LENGTH                          // Link of DAO's image
         + PUBKEY_LENGTH                              // Authority of DAO
         + PUBKEY_LENGTH                              // DAO Vault Token Account
         + PUBKEY_LENGTH                              // Mint of DAO Token
