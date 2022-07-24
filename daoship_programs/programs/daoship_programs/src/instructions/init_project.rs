@@ -47,8 +47,10 @@ pub fn handler(ctx: Context<InitProject>, name: String, img_link: String) -> Res
     project.project_vault = ctx.accounts.project_vault_token_account.key();
     project.vault_mint = ctx.accounts.project_vault_mint.key();
     project.reputation = 0;
+    project.total_jobs = 0;
     project.available_jobs = 0;
     project.completed_hirings = 0;
+    project.total_bounties = 0;
     project.available_bounties = 0;
     project.completed_hirings = 0;
     project.bump = *ctx.bumps.get("project").unwrap();

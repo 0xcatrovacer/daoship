@@ -29,7 +29,7 @@ pub struct Dao {
     pub completed_hirings: u64,
 
     /// Number of bounties available on the DAO's platform
-    pub available_bounites: u64,
+    pub available_bounties: u64,
 
     /// Number of completed bounties
     pub completed_bounties: u64,

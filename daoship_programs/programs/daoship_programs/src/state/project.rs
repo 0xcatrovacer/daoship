@@ -22,11 +22,17 @@ pub struct Project {
     /// Reputation of the Project
     pub reputation: i64,
 
+    /// Total Number of Jobs posted
+    pub total_jobs: u64,
+
     /// Number of available jobs across the platform
     pub available_jobs: u64,
 
     /// Number of completed hirings
     pub completed_hirings: u64,
+
+    /// Total Number of Bounties posted
+    pub total_bounties: u64,
 
     /// Number of available bounties
     pub available_bounties: u64,
@@ -46,8 +52,10 @@ impl Project {
         + PUBKEY_LENGTH                          // Project vault
         + PUBKEY_LENGTH                          // Vault mint
         + DATA_LENGTH                            // Reputation
+        + DATA_LENGTH                            // Total jobs
         + DATA_LENGTH                            // Available jobs
         + DATA_LENGTH                            // Completed hirings
+        + DATA_LENGTH                            // Total bounties
         + DATA_LENGTH                            // Available bounties
         + DATA_LENGTH                            // Completed bounties
         + BOOL_LENGTH; // Bump

@@ -47,7 +47,7 @@ pub fn handler(ctx: Context<InitDao>, name: String, img_link: String) -> Result<
     dao.whitelisted_projects = 0;
     dao.available_jobs = 0;
     dao.completed_hirings = 0;
-    dao.available_bounites = 0;
+    dao.available_bounties = 0;
     dao.completed_bounties = 0;
     dao.is_whitelisted = false;
     dao.bump = *ctx.bumps.get("dao").unwrap();
