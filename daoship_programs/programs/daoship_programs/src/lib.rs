@@ -48,4 +48,8 @@ pub mod daoship_programs {
     ) -> Result<()> {
         instructions::init_bounty_listing::handler(ctx, amount, description)
     }
+
+    pub fn close_bounty_listing(ctx: Context<CloseBountyListing>) -> Result<()> {
+        instructions::close_bounty_listing::handler(ctx)
+    }
 }

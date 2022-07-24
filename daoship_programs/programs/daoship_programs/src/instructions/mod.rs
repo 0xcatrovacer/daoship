@@ -1,3 +1,4 @@
+pub mod close_bounty_listing;
 pub mod close_job_listing;
 pub mod init_bounty_listing;
 pub mod init_dao;
@@ -7,6 +8,7 @@ pub mod init_whitelist_project;
 pub mod whitelist_dao;
 pub mod whitelist_project;
 
+pub use close_bounty_listing::*;
 pub use close_job_listing::*;
 pub use init_bounty_listing::*;
 pub use init_dao::*;
