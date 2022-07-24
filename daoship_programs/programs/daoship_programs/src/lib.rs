@@ -40,4 +40,12 @@ pub mod daoship_programs {
     pub fn close_job_listing(ctx: Context<CloseJobListing>) -> Result<()> {
         instructions::close_job_listing::handler(ctx)
     }
+
+    pub fn init_bounty_listing(
+        ctx: Context<InitBountyListing>,
+        amount: u64,
+        description: String,
+    ) -> Result<()> {
+        instructions::init_bounty_listing::handler(ctx, amount, description)
+    }
 }
