@@ -34,7 +34,14 @@ pub fn handler(ctx: Context<CloseJobListing>) -> Result<()> {
         return Err(ErrorCodes::Unauthorized.into());
     }
 
-    ctx.accounts.project.reputation += CLOSE_JOB_REP;
+    let project = &mut ctx.accounts.project;
+    let dao = &mut ctx.accounts.dao;
+
+    project.reputation += CLOSE_JOB_REP;
+    project.total_jobs -= 1;
+    project.available_jobs -= 1;
+    
+    dao.available_jobs -= 1;
 
     Ok(())
 }
