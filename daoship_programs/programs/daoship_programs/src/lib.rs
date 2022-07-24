@@ -32,4 +32,8 @@ pub mod daoship_programs {
     pub fn whitelist_project(ctx: Context<WhitelistProject>) -> Result<()> {
         instructions::whitelist_project::handler(ctx)
     }
+
+    pub fn init_job_listing(ctx: Context<InitJobListing>, description: String) -> Result<()> {
+        instructions::init_job_listing::handler(ctx, description)
+    }
 }
