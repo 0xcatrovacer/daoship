@@ -36,4 +36,8 @@ pub mod daoship_programs {
     pub fn init_job_listing(ctx: Context<InitJobListing>, description: String) -> Result<()> {
         instructions::init_job_listing::handler(ctx, description)
     }
+
+    pub fn close_job_listing(ctx: Context<CloseJobListing>) -> Result<()> {
+        instructions::close_job_listing::handler(ctx)
+    }
 }
