@@ -16,6 +16,9 @@ pub struct Bounty {
     /// Bounty Token Account
     pub bounty_vault_account: Pubkey,
 
+    /// Bounty Amount
+    pub amount: u64,
+
     /// Timestamp when Job was posted
     pub post_ts: i64,
 
@@ -38,6 +41,7 @@ impl Bounty {
         + PUBKEY_LENGTH                         // DAO Pubkey
         + PUBKEY_LENGTH                         // Mint of Bounty Vault Token
         + PUBKEY_LENGTH                         // Vault Account for Bounty
+        + DATA_LENGTH                           // Amount For Bounty
         + DATA_LENGTH                           // Timestamp for Bounty post
         + DATA_LENGTH                           // Number of applicants
         + DATA_LENGTH                           // Number of approved users
