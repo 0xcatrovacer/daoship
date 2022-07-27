@@ -52,4 +52,8 @@ pub mod daoship_programs {
     pub fn close_bounty_listing(ctx: Context<CloseBountyListing>) -> Result<()> {
         instructions::close_bounty_listing::handler(ctx)
     }
+
+    pub fn init_user(ctx: Context<InitUser>, name: String, bio: String) -> Result<()> {
+        instructions::init_user::handler(ctx, name, bio)
+    }
 }
