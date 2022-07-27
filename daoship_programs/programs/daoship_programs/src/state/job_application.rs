@@ -20,14 +20,14 @@ pub struct JobApplication {
     pub resume: String,
 
     /// Application status
-    pub application_status: Status,
+    pub application_status: JobStatus,
 
     /// Bump
     pub bump: u8,
 }
 
-#[derive(Debug, AnchorSerialize, AnchorDeserialize, Eq, PartialEq, Clone, Copy)]
-pub enum Status {
+#[derive(Debug, AnchorSerialize, AnchorDeserialize, Clone, Copy)]
+pub enum JobStatus {
     NoUpdate,
     Interviewing,
     Rejected,
