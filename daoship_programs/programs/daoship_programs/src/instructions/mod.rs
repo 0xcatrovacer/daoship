@@ -8,6 +8,7 @@ pub mod init_whitelist_project;
 pub mod whitelist_dao;
 pub mod whitelist_project;
 pub mod init_user;
+pub mod init_job_application;
 
 pub use close_bounty_listing::*;
 pub use close_job_listing::*;
@@ -19,3 +20,4 @@ pub use init_whitelist_project::*;
 pub use whitelist_dao::*;
 pub use whitelist_project::*;
 pub use init_user::*;
+pub use init_job_application::*;

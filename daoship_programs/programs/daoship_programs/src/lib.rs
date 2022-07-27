@@ -56,4 +56,8 @@ pub mod daoship_programs {
     pub fn init_user(ctx: Context<InitUser>, name: String, bio: String) -> Result<()> {
         instructions::init_user::handler(ctx, name, bio)
     }
+
+    pub fn init_job_application(ctx: Context<InitJobApplication>, resume: String) -> Result<()> {
+        instructions::init_job_application::handler(ctx, resume)
+    }
 }
