@@ -60,4 +60,8 @@ pub mod daoship_programs {
     pub fn init_job_application(ctx: Context<InitJobApplication>, resume: String) -> Result<()> {
         instructions::init_job_application::handler(ctx, resume)
     }
+
+    pub fn close_job_application(ctx: Context<CloseJobApplication>) -> Result<()> {
+        instructions::close_job_application::handler(ctx)
+    }
 }
