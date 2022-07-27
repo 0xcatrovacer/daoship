@@ -12,7 +12,7 @@ pub struct WhitelistDao<'info> {
         seeds = [b"dao", dao_authority.key().as_ref()],
         bump = dao.bump,
     )]
-    pub dao: Account<'info, Dao>,
+    pub dao: Box<Account<'info, Dao>>,
 
     /// CHECK: This is not dangerous
     pub dao_authority: AccountInfo<'info>,

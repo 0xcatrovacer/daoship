@@ -14,13 +14,13 @@ pub struct WhitelistProject<'info> {
         ],
         bump=project_whitelist.bump,
     )]
-    pub project_whitelist: Account<'info, ProjectWhitelist>,
+    pub project_whitelist: Box<Account<'info, ProjectWhitelist>>,
 
     #[account(mut, has_one=authority)]
-    pub dao: Account<'info, Dao>,
+    pub dao: Box<Account<'info, Dao>>,
 
     #[account(mut)]
-    pub project: Account<'info, Project>,
+    pub project: Box<Account<'info, Project>>,
 
     #[account(mut)]
     pub authority: Signer<'info>,

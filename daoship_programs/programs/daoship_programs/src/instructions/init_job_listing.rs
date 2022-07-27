@@ -18,19 +18,19 @@ pub struct InitJobListing<'info> {
         payer = authority,
         space = Job::LEN
     )]
-    pub job: Account<'info, Job>,
+    pub job: Box<Account<'info, Job>>,
 
     #[account(mut)]
-    pub dao: Account<'info, Dao>,
+    pub dao: Box<Account<'info, Dao>>,
 
     #[account(mut, has_one=authority)]
-    pub project: Account<'info, Project>,
+    pub project: Box<Account<'info, Project>>,
 
     #[account(mut)]
     pub authority: Signer<'info>,
 
     #[account(mut, has_one=project, has_one=dao)]
-    pub project_whitelist: Account<'info, ProjectWhitelist>,
+    pub project_whitelist: Box<Account<'info, ProjectWhitelist>>,
 
     pub system_program: Program<'info, System>,
 

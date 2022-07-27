@@ -13,7 +13,7 @@ pub struct InitProject<'info> {
         payer=authority,
         space=Project::LEN
     )]
-    pub project: Account<'info, Project>,
+    pub project: Box<Account<'info, Project>>,
 
     #[account(mut)]
     pub authority: Signer<'info>,

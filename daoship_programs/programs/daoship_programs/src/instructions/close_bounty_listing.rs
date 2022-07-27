@@ -21,7 +21,7 @@ pub struct CloseBountyListing<'info> {
         has_one = dao,
         has_one = project,
     )]
-    pub bounty: Account<'info, Bounty>,
+    pub bounty: Box<Account<'info, Bounty>>,
 
     #[account(
         mut,
@@ -30,10 +30,10 @@ pub struct CloseBountyListing<'info> {
     pub bounty_vault_account: Account<'info, TokenAccount>,
 
     #[account(mut)]
-    pub dao: Account<'info, Dao>,
+    pub dao: Box<Account<'info, Dao>>,
 
     #[account(mut, has_one=authority)]
-    pub project: Account<'info, Project>,
+    pub project: Box<Account<'info, Project>>,
 
     #[account(mut)]
     pub authority: Signer<'info>,

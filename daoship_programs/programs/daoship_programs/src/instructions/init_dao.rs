@@ -11,7 +11,7 @@ pub struct InitDao<'info> {
         payer = authority, 
         space = Dao::LEN
     )]
-    pub dao: Account<'info, Dao>,
+    pub dao: Box<Account<'info, Dao>>,
 
     #[account(mut)]
     pub dao_vault_mint: Account<'info, Mint>,

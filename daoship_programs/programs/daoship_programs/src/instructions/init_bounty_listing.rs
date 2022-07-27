@@ -20,13 +20,13 @@ pub struct InitBountyListing<'info> {
         payer = authority,
         space = Bounty::LEN
     )]
-    pub bounty: Account<'info, Bounty>,
+    pub bounty: Box<Account<'info, Bounty>>,
 
     #[account(mut)]
-    pub dao: Account<'info, Dao>,
+    pub dao: Box<Account<'info, Dao>>,
 
     #[account(mut, has_one=authority)]
-    pub project: Account<'info, Project>,
+    pub project: Box<Account<'info, Project>>,
     
     #[account(
         init,
@@ -57,7 +57,7 @@ pub struct InitBountyListing<'info> {
     pub authority: Signer<'info>,
 
     #[account(mut, has_one=project, has_one=dao)]
-    pub project_whitelist: Account<'info, ProjectWhitelist>,
+    pub project_whitelist: Box<Account<'info, ProjectWhitelist>>,
 
     pub system_program: Program<'info, System>,
 

@@ -17,13 +17,13 @@ pub struct CloseJobListing<'info> {
         bump=job.bump,
         close=authority
     )]
-    pub job: Account<'info, Job>,
+    pub job: Box<Account<'info, Job>>,
 
     #[account(mut)]
-    pub dao: Account<'info, Dao>,
+    pub dao: Box<Account<'info, Dao>>,
 
     #[account(mut, has_one=authority)]
-    pub project: Account<'info, Project>,
+    pub project: Box<Account<'info, Project>>,
 
     #[account(mut)]
     pub authority: Signer<'info>,

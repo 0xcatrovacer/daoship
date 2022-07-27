@@ -11,7 +11,7 @@ pub struct InitUser<'info> {
         payer = authority,
         space = User::LEN
     )]
-    pub user: Account<'info, User>,
+    pub user: Box<Account<'info, User>>,
 
     #[account(mut)]
     pub authority: Signer<'info>,
