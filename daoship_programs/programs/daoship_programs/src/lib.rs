@@ -76,4 +76,8 @@ pub mod daoship_programs {
     pub fn submit_bounty_for_review(ctx: Context<SubmitBountyForReview>, submission_link: String) -> Result<()> {
         instructions::submit_bounty_for_review::handler(ctx, submission_link)
     }
+
+    pub fn accept_bounty_submission(ctx: Context<AcceptBountySubmission>) -> Result<()> {
+        instructions::accept_bounty_submission::handler(ctx)
+    }
 }
