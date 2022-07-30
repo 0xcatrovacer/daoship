@@ -20,14 +20,14 @@ pub struct BountyApplication {
     pub ts: i64,
 
     /// Application status
-    pub application_status: Status,
+    pub application_status: BountyStatus,
 
     /// Bump
     pub bump: u8,
 }
 
 #[derive(Debug, AnchorSerialize, AnchorDeserialize, Eq, PartialEq, Clone, Copy)]
-pub enum Status {
+pub enum BountyStatus {
     NoUpdate,
     Approved,
     Rejected,
