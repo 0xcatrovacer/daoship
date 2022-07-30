@@ -22,6 +22,9 @@ pub struct BountyApplication {
     /// Application status
     pub application_status: BountyStatus,
 
+    /// Submission Link
+    pub submission_link: String,
+
     /// Bump
     pub bump: u8,
 }
@@ -42,5 +45,6 @@ impl BountyApplication {
         + PUBKEY_LENGTH                         // User Token Account
         + DATA_LENGTH                           // Timestamp
         + ENUM_LENGTH                           // Application Status
+        + LINK_LENGTH                           // Submission Link
         + BOOL_LENGTH; // Bump
 }
