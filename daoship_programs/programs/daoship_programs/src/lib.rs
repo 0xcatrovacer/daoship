@@ -68,4 +68,12 @@ pub mod daoship_programs {
     pub fn init_bounty_application(ctx: Context<InitBountyApplication>) -> Result<()> {
         instructions::init_bounty_application::handler(ctx)
     }
+
+    pub fn close_bounty_application(ctx: Context<CloseBountyApplication>) -> Result<()> {
+        instructions::close_bounty_application::handler(ctx)
+    }
+
+    pub fn approve_user_for_bounty(ctx: Context<ApproveUserForBounty>) -> Result<()> {
+        instructions::approve_user_for_bounty::handler(ctx)
+    }
 }
