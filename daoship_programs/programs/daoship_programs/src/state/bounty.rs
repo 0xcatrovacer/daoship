@@ -31,6 +31,12 @@ pub struct Bounty {
     /// Description of the job
     pub bounty_description: String,
 
+    /// Bounty Completed
+    pub is_completed: bool,
+
+    /// Bounty Winner
+    pub bounty_winner: Pubkey,
+
     /// Bump
     pub bump: u8,
 }
@@ -46,5 +52,7 @@ impl Bounty {
         + DATA_LENGTH                           // Number of applicants
         + DATA_LENGTH                           // Number of approved users
         + LINK_LENGTH                           // Description of Bounty
+        + BOOL_LENGTH                           // Bounty Completion Status
+        + PUBKEY_LENGTH                         // Bounty Winner
         + BOOL_LENGTH; // Bump
 }

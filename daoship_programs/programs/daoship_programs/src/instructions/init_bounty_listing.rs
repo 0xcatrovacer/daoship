@@ -109,6 +109,7 @@ pub fn handler(ctx: Context<InitBountyListing>, amount: u64, description: String
     bounty.applications = 0;
     bounty.approved = 0;
     bounty.bounty_description = description;
+    bounty.is_completed = false;
     bounty.bump = *ctx.bumps.get("bounty").unwrap();
 
     ctx.accounts.project.reputation += CREATE_BOUNTY_REP;
