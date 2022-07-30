@@ -13,6 +13,7 @@ pub mod close_job_application;
 pub mod init_bounty_application;
 pub mod close_bounty_application;
 pub mod approve_user_for_bounty;
+pub mod submit_bounty_for_review;
 
 pub use close_bounty_listing::*;
 pub use close_job_listing::*;
@@ -29,3 +30,4 @@ pub use close_job_application::*;
 pub use init_bounty_application::*;
 pub use close_bounty_application::*;
 pub use approve_user_for_bounty::*;
+pub use submit_bounty_for_review::*;
