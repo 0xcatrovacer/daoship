@@ -10,6 +10,7 @@ pub mod whitelist_project;
 pub mod init_user;
 pub mod init_job_application;
 pub mod close_job_application;
+pub mod init_bounty_application;
 
 pub use close_bounty_listing::*;
 pub use close_job_listing::*;
@@ -23,3 +24,4 @@ pub use whitelist_project::*;
 pub use init_user::*;
 pub use init_job_application::*;
 pub use close_job_application::*;
+pub use init_bounty_application::*;

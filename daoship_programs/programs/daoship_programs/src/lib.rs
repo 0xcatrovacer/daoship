@@ -64,4 +64,8 @@ pub mod daoship_programs {
     pub fn close_job_application(ctx: Context<CloseJobApplication>) -> Result<()> {
         instructions::close_job_application::handler(ctx)
     }
+
+    pub fn init_bounty_application(ctx: Context<InitBountyApplication>) -> Result<()> {
+        instructions::init_bounty_application::handler(ctx)
+    }
 }
