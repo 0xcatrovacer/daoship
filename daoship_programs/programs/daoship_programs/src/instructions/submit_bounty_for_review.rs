@@ -36,7 +36,7 @@ pub fn handler(ctx: Context<SubmitBountyForReview>, submission_link: String) -> 
     let bounty_application = &mut ctx.accounts.bounty_application;
     let user = &mut ctx.accounts.user;
 
-    if *ctx.accounts.authority.key != user.key() {
+    if *ctx.accounts.authority.key != user.authority {
         return Err(ErrorCodes::Unauthorized.into());
     }
     if bounty_application.application_status != BountyStatus::Approved {
