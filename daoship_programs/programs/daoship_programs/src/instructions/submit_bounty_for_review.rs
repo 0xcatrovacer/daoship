@@ -33,12 +33,16 @@ pub struct SubmitBountyForReview<'info> {
 }
 
 pub fn handler(ctx: Context<SubmitBountyForReview>, submission_link: String) -> Result<()> {
-    if *ctx.accounts.authority.key != ctx.accounts.user.key() {
-        return Err(ErrorCodes::Unauthorized.into());
-    }
-
     let bounty_application = &mut ctx.accounts.bounty_application;
     let user = &mut ctx.accounts.user;
+
+    if *ctx.accounts.authority.key != user.key() {
+        return Err(ErrorCodes::Unauthorized.into());
+    }
+    if bounty_application.application_status != BountyStatus::Approved {
+        return Err(ErrorCodes::NotApproved.into());
+    }
+
 
     bounty_application.submission_link = submission_link;
     user.reputation += COMPLETE_BOUNTY_REP;

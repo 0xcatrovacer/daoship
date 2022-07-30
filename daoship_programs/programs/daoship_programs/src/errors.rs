@@ -10,4 +10,6 @@ pub enum ErrorCodes {
     BioTooLong,
     #[msg("Unauthorized")]
     Unauthorized,
+    #[msg("Not approved by project")]
+    NotApproved,
 }
