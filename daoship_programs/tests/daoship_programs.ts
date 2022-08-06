@@ -1,16 +1,248 @@
 import * as anchor from "@project-serum/anchor";
-import { Program } from "@project-serum/anchor";
+import { Address, Program } from "@project-serum/anchor";
+import {createAccount, createMint} from '@solana/spl-token'
+import {LAMPORTS_PER_SOL, PublicKey, Keypair} from '@solana/web3.js'
+import { assert } from "chai";
 import { DaoshipPrograms } from "../target/types/daoship_programs";
 
 describe("daoship_programs", () => {
-  // Configure the client to use the local cluster.
-  anchor.setProvider(anchor.AnchorProvider.env());
+  const provider = anchor.AnchorProvider.local();
+  anchor.setProvider(provider);
 
   const program = anchor.workspace.DaoshipPrograms as Program<DaoshipPrograms>;
+  
+  let usdcMint: PublicKey = null;
+  let mintAuthority: Keypair = null;
 
-  it("Is initialized!", async () => {
-    // Add your test here.
-    const tx = await program.methods.initialize().rpc();
-    console.log("Your transaction signature", tx);
+  let dao: PublicKey = null;
+  let daoAuthority: Keypair = null;
+  let daoUsdcTokenAccount = null;
+
+  let project: PublicKey = null;
+  let projectAuthority: Keypair = null;
+  let projectUsdcTokenAccount: PublicKey = null;
+  let projectJobCount: number = null;
+  let projectRepCount: number = null;
+
+  let projectWhitelist: PublicKey = null;
+
+  let job: PublicKey = null;
+
+  it("Can initialize the state of the program", async () => {
+    mintAuthority = anchor.web3.Keypair.generate();
+    daoAuthority = anchor.web3.Keypair.generate();
+    projectAuthority = anchor.web3.Keypair.generate();
+
+    const fundMintAuthority = await program.provider.connection.requestAirdrop(
+      mintAuthority.publicKey, 10 * LAMPORTS_PER_SOL
+    );
+    const fundDaoAuthority = await program.provider.connection.requestAirdrop(
+      daoAuthority.publicKey, 5 * LAMPORTS_PER_SOL
+    );
+    const fundProjectAuthority = await program.provider.connection.requestAirdrop(
+      projectAuthority.publicKey, 5 * LAMPORTS_PER_SOL
+    );
+
+    await program.provider.connection.confirmTransaction(fundMintAuthority);
+    await program.provider.connection.confirmTransaction(fundDaoAuthority);
+    await program.provider.connection.confirmTransaction(fundProjectAuthority);
+
+    usdcMint = await createMint(
+      provider.connection,
+      mintAuthority,
+      mintAuthority.publicKey,
+      mintAuthority.publicKey,
+      6
+    )
+
+    daoUsdcTokenAccount = await createAccount(
+      provider.connection,
+      daoAuthority,
+      usdcMint,
+      daoAuthority.publicKey,
+    )
+
+    projectUsdcTokenAccount = await createAccount(
+      provider.connection,
+      projectAuthority,
+      usdcMint,
+      projectAuthority.publicKey,
+    )
+
   });
+
+  it("Can initialize DAO", async () => {
+    const [_dao, _daoBump] = await anchor.web3.PublicKey.findProgramAddress(
+      [
+        anchor.utils.bytes.utf8.encode('dao'),
+        daoAuthority.publicKey.toBuffer(),
+      ],
+      program.programId
+    )
+
+    dao = _dao;
+
+    await program.methods
+      .initDao('DaoshipDAO', 'https://assets.daoship.io')
+      .accounts({
+        dao: dao,
+        daoVaultMint: usdcMint,
+        daoVaultTokenAccount: daoUsdcTokenAccount,
+        authority: daoAuthority.publicKey,
+        systemProgram: anchor.web3.SystemProgram.programId,
+      })
+      .signers([daoAuthority])
+      .rpc()
+
+    const createdDao = await program.account.dao.fetch(dao);
+
+    assert.strictEqual(createdDao.name, 'DaoshipDAO');
+    assert.strictEqual(createdDao.imgLink, 'https://assets.daoship.io');
+    assert.strictEqual(createdDao.authority.toBase58(), daoAuthority.publicKey.toBase58());
+    assert.strictEqual(createdDao.daoVault.toBase58(), daoUsdcTokenAccount.toBase58());
+    assert.strictEqual(createdDao.vaultMint.toBase58(), usdcMint.toBase58());
+    assert.strictEqual(createdDao.isWhitelisted, false);
+    assert.strictEqual(createdDao.bump, _daoBump);
+  })
+
+  it("Can whitelist a DAO", async () => {
+    await program.methods.whitelistDao()
+      .accounts({
+        dao: dao,
+        daoAuthority: daoAuthority.publicKey,
+        authority: provider.wallet.publicKey,
+      })
+      .rpc();
+
+    const whitelistedDao = await program.account.dao.fetch(dao);
+
+    assert.strictEqual(whitelistedDao.isWhitelisted, true);
+  })
+
+  it("Can initialize a Project", async () => {
+    const [_project, _projectBump] = await anchor.web3.PublicKey.findProgramAddress(
+      [
+        anchor.utils.bytes.utf8.encode('project'),
+        projectAuthority.publicKey.toBuffer(),
+      ],
+      program.programId,
+    );
+
+    project = _project;
+
+    await program.methods.initProject('LendProtocol', 'https://assets.ledprotocol.io')
+      .accounts({
+        project: project,
+        authority: projectAuthority.publicKey,
+        projectVaultMint: usdcMint,
+        projectVaultTokenAccount: projectUsdcTokenAccount,
+        systemProgram: anchor.web3.SystemProgram.programId,
+      })
+      .signers([projectAuthority])
+      .rpc();
+
+    const createdProject = await program.account.project.fetch(project);
+
+    assert.strictEqual(createdProject.name, 'LendProtocol');
+    assert.strictEqual(createdProject.imgLink, 'https://assets.ledprotocol.io');
+    assert.strictEqual(createdProject.authority.toBase58(), projectAuthority.publicKey.toBase58());
+    assert.strictEqual(createdProject.projectVault.toBase58(), projectUsdcTokenAccount.toBase58());
+    assert.strictEqual(createdProject.vaultMint.toBase58(), usdcMint.toBase58());
+    assert.strictEqual(createdProject.bump, _projectBump);
+  })
+
+  it("Can apply for project whitelist", async () => {
+    const [_projectWhitelist, _projectWhitelistBump] = await anchor.web3.PublicKey.findProgramAddress(
+      [
+        anchor.utils.bytes.utf8.encode('whitelist'),
+        dao.toBuffer(),
+        project.toBuffer(),
+      ],
+      program.programId
+    )
+
+    projectWhitelist = _projectWhitelist;
+
+    await program.methods.initWhitelistProject()
+      .accounts({
+        projectWhitelist: projectWhitelist,
+        dao: dao,
+        project: project,
+        authority: projectAuthority.publicKey,
+        systemProgram: anchor.web3.SystemProgram.programId,
+      })
+      .signers([projectAuthority])
+      .rpc();
+
+    const initializedWhitelist = await program.account.projectWhitelist.fetch(projectWhitelist);
+
+    assert.strictEqual(initializedWhitelist.dao.toBase58(), dao.toBase58());
+    assert.strictEqual(initializedWhitelist.project.toBase58(), project.toBase58());
+    assert.strictEqual(initializedWhitelist.isWhitelisted, false);
+    assert.strictEqual(initializedWhitelist.bump, _projectWhitelistBump);
+  })
+
+  it("Can whitelist project", async () => {
+    await program.methods.whitelistProject()
+      .accounts({
+        projectWhitelist: projectWhitelist,
+        dao: dao,
+        project: project,
+        authority: daoAuthority.publicKey,
+      })
+      .signers([daoAuthority])
+      .rpc();
+
+    const whitelisted = await program.account.projectWhitelist.fetch(projectWhitelist);
+
+    assert.strictEqual(whitelisted.isWhitelisted, true);
+  })
+
+  it("Can initialize job listing", async () => {
+    const jobLister = await program.account.project.fetch(project);
+    projectJobCount = jobLister.totalJobs.toNumber();
+
+    const [_job, _jobBump] = await anchor.web3.PublicKey.findProgramAddress(
+      [
+        anchor.utils.bytes.utf8.encode('job'),
+        dao.toBuffer(),
+        project.toBuffer(),
+        Buffer.from(projectJobCount.toString()),
+      ],
+      program.programId
+    );
+    
+    job = _job;
+
+    await program.methods.initJobListing('https://joblisting.project.com')
+      .accounts({
+        job: job,
+        dao: dao,
+        project: project,
+        authority: projectAuthority.publicKey,
+        projectWhitelist: projectWhitelist,
+        systemProgram: anchor.web3.SystemProgram.programId,
+        clock: anchor.web3.SYSVAR_CLOCK_PUBKEY,
+      })
+      .signers([projectAuthority])
+      .rpc();
+
+    const createdJobListing = await program.account.job.fetch(job);
+    const jobListProject = await program.account.project.fetch(project);
+    const asstDao = await program.account.dao.fetch(dao);
+
+    assert.strictEqual(createdJobListing.project.toBase58(), project.toBase58());
+    assert.strictEqual(createdJobListing.dao.toBase58(), dao.toBase58());
+    assert.strictEqual(createdJobListing.jobDescription, 'https://joblisting.project.com');
+    assert.strictEqual(createdJobListing.hiredStatus, false);
+    assert.strictEqual(createdJobListing.bump, _jobBump);
+
+    assert.strictEqual(jobListProject.totalJobs.toNumber(), projectJobCount + 1);
+    projectJobCount += 1;
+    assert.strictEqual(jobListProject.availableJobs.toNumber(), 1);
+    assert.strictEqual(jobListProject.reputation.toNumber(), projectRepCount + 3);
+    projectRepCount += 3;
+
+    assert.strictEqual(asstDao.availableJobs.toNumber(), 1);
+  })
 });
