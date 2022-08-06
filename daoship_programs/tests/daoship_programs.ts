@@ -177,4 +177,20 @@ describe("daoship_programs", () => {
     assert.strictEqual(initializedWhitelist.isWhitelisted, false);
     assert.strictEqual(initializedWhitelist.bump, _projectWhitelistBump);
   })
+
+  it("Can whitelist project", async () => {
+    await program.methods.whitelistProject()
+      .accounts({
+        projectWhitelist: projectWhitelist,
+        dao: dao,
+        project: project,
+        authority: daoAuthority.publicKey,
+      })
+      .signers([daoAuthority])
+      .rpc();
+
+    const whitelisted = await program.account.projectWhitelist.fetch(projectWhitelist);
+
+    assert.strictEqual(whitelisted.isWhitelisted, true);
+  })
 });
