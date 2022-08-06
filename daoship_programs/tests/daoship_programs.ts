@@ -83,4 +83,17 @@ describe("daoship_programs", () => {
     assert.strictEqual(createdDao.bump, _daoBump);
   })
 
+  it("Can whitelist a DAO", async () => {
+    await program.methods.whitelistDao()
+      .accounts({
+        dao: dao,
+        daoAuthority: daoAuthority.publicKey,
+        authority: provider.wallet.publicKey,
+      })
+      .rpc();
+
+    const whitelistedDao = await program.account.dao.fetch(dao);
+
+    assert.strictEqual(whitelistedDao.isWhitelisted, true);
+  })
 });
