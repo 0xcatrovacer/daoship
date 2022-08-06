@@ -22,6 +22,8 @@ describe("daoship_programs", () => {
   let projectAuthority: Keypair = null;
   let projectUsdcTokenAccount: PublicKey = null;
 
+  let projectWhitelist: PublicKey = null;
+
   it("Can initialize the state of the program", async () => {
     mintAuthority = anchor.web3.Keypair.generate();
     daoAuthority = anchor.web3.Keypair.generate();
@@ -143,5 +145,36 @@ describe("daoship_programs", () => {
     assert.strictEqual(createdProject.projectVault.toBase58(), projectUsdcTokenAccount.toBase58());
     assert.strictEqual(createdProject.vaultMint.toBase58(), usdcMint.toBase58());
     assert.strictEqual(createdProject.bump, _projectBump);
+  })
+
+  it("Can apply for project whitelist", async () => {
+    const [_projectWhitelist, _projectWhitelistBump] = await anchor.web3.PublicKey.findProgramAddress(
+      [
+        anchor.utils.bytes.utf8.encode('whitelist'),
+        dao.toBuffer(),
+        project.toBuffer(),
+      ],
+      program.programId
+    )
+
+    projectWhitelist = _projectWhitelist;
+
+    await program.methods.initWhitelistProject()
+      .accounts({
+        projectWhitelist: projectWhitelist,
+        dao: dao,
+        project: project,
+        authority: projectAuthority.publicKey,
+        systemProgram: anchor.web3.SystemProgram.programId,
+      })
+      .signers([projectAuthority])
+      .rpc();
+
+    const initializedWhitelist = await program.account.projectWhitelist.fetch(projectWhitelist);
+
+    assert.strictEqual(initializedWhitelist.dao.toBase58(), dao.toBase58());
+    assert.strictEqual(initializedWhitelist.project.toBase58(), project.toBase58());
+    assert.strictEqual(initializedWhitelist.isWhitelisted, false);
+    assert.strictEqual(initializedWhitelist.bump, _projectWhitelistBump);
   })
 });
