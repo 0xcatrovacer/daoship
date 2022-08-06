@@ -21,8 +21,12 @@ describe("daoship_programs", () => {
   let project: PublicKey = null;
   let projectAuthority: Keypair = null;
   let projectUsdcTokenAccount: PublicKey = null;
+  let projectJobCount: number = null;
+  let projectRepCount: number = null;
 
   let projectWhitelist: PublicKey = null;
+
+  let job: PublicKey = null;
 
   it("Can initialize the state of the program", async () => {
     mintAuthority = anchor.web3.Keypair.generate();
@@ -192,5 +196,53 @@ describe("daoship_programs", () => {
     const whitelisted = await program.account.projectWhitelist.fetch(projectWhitelist);
 
     assert.strictEqual(whitelisted.isWhitelisted, true);
+  })
+
+  it("Can initialize job listing", async () => {
+    const jobLister = await program.account.project.fetch(project);
+    projectJobCount = jobLister.totalJobs.toNumber();
+
+    const [_job, _jobBump] = await anchor.web3.PublicKey.findProgramAddress(
+      [
+        anchor.utils.bytes.utf8.encode('job'),
+        dao.toBuffer(),
+        project.toBuffer(),
+        Buffer.from(projectJobCount.toString()),
+      ],
+      program.programId
+    );
+    
+    job = _job;
+
+    await program.methods.initJobListing('https://joblisting.project.com')
+      .accounts({
+        job: job,
+        dao: dao,
+        project: project,
+        authority: projectAuthority.publicKey,
+        projectWhitelist: projectWhitelist,
+        systemProgram: anchor.web3.SystemProgram.programId,
+        clock: anchor.web3.SYSVAR_CLOCK_PUBKEY,
+      })
+      .signers([projectAuthority])
+      .rpc();
+
+    const createdJobListing = await program.account.job.fetch(job);
+    const jobListProject = await program.account.project.fetch(project);
+    const asstDao = await program.account.dao.fetch(dao);
+
+    assert.strictEqual(createdJobListing.project.toBase58(), project.toBase58());
+    assert.strictEqual(createdJobListing.dao.toBase58(), dao.toBase58());
+    assert.strictEqual(createdJobListing.jobDescription, 'https://joblisting.project.com');
+    assert.strictEqual(createdJobListing.hiredStatus, false);
+    assert.strictEqual(createdJobListing.bump, _jobBump);
+
+    assert.strictEqual(jobListProject.totalJobs.toNumber(), projectJobCount + 1);
+    projectJobCount += 1;
+    assert.strictEqual(jobListProject.availableJobs.toNumber(), 1);
+    assert.strictEqual(jobListProject.reputation.toNumber(), projectRepCount + 3);
+    projectRepCount += 3;
+
+    assert.strictEqual(asstDao.availableJobs.toNumber(), 1);
   })
 });
