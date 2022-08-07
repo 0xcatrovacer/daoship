@@ -39,6 +39,8 @@ describe("daoship_programs", () => {
   let user: PublicKey = null;
   let userAuthority: Keypair = null;
 
+  let jobApplication = null;
+
   it("Can initialize the state of the program", async () => {
     mintAuthority = anchor.web3.Keypair.generate();
     daoAuthority = anchor.web3.Keypair.generate();
@@ -393,5 +395,41 @@ describe("daoship_programs", () => {
     assert.strictEqual(createdUser.authority.toBase58(), userAuthority.publicKey.toBase58());
     assert.strictEqual(createdUser.bio, 'Seek and you shall find');
     assert.strictEqual(createdUser.bump, _userBump);
+  });
+
+  it('Can initialize job application', async () => {
+    const [_jobApplication, _jobApplicationBump] = await anchor.web3.PublicKey.findProgramAddress(
+      [
+        anchor.utils.bytes.utf8.encode('job-application'),
+        job.toBuffer(),
+        user.toBuffer(),
+      ],
+      program.programId,
+    );
+
+    jobApplication = _jobApplication;
+
+    await program.methods.initJobApplication('https://resume.user.io')
+      .accounts({
+        jobApplication: jobApplication,
+        job: job,
+        project: project,
+        dao: dao,
+        user: user,
+        authority: userAuthority.publicKey,
+        systemProgram: anchor.web3.SystemProgram.programId,
+        clock: anchor.web3.SYSVAR_CLOCK_PUBKEY,
+      })
+      .signers([userAuthority])
+      .rpc();
+
+    const createdJobApplication = await program.account.jobApplication.fetch(jobApplication);
+    
+    assert.strictEqual(createdJobApplication.job.toBase58(), job.toBase58());
+    assert.strictEqual(createdJobApplication.project.toBase58(), project.toBase58());
+    assert.strictEqual(createdJobApplication.user.toBase58(), user.toBase58());
+    assert.strictEqual(createdJobApplication.resume, 'https://resume.user.io');
+    assert.strictEqual(JSON.stringify(createdJobApplication.applicationStatus), JSON.stringify({noUpdate: {}}));
+    assert.strictEqual(createdJobApplication.bump, _jobApplicationBump);
   })
 });
