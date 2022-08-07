@@ -155,7 +155,7 @@ describe("daoship_programs", () => {
     assert.strictEqual(createdDao.vaultMint.toBase58(), usdcMint.toBase58());
     assert.strictEqual(createdDao.isWhitelisted, false);
     assert.strictEqual(createdDao.bump, _daoBump);
-  })
+  });
 
   it("Can whitelist a DAO", async () => {
     await program.methods.whitelistDao()
@@ -169,7 +169,7 @@ describe("daoship_programs", () => {
     const whitelistedDao = await program.account.dao.fetch(dao);
 
     assert.strictEqual(whitelistedDao.isWhitelisted, true);
-  })
+  });
 
   it("Can initialize a Project", async () => {
     const [_project, _projectBump] = await anchor.web3.PublicKey.findProgramAddress(
@@ -201,7 +201,7 @@ describe("daoship_programs", () => {
     assert.strictEqual(createdProject.projectVault.toBase58(), projectUsdcTokenAccount.toBase58());
     assert.strictEqual(createdProject.vaultMint.toBase58(), usdcMint.toBase58());
     assert.strictEqual(createdProject.bump, _projectBump);
-  })
+  });
 
   it("Can apply for project whitelist", async () => {
     const [_projectWhitelist, _projectWhitelistBump] = await anchor.web3.PublicKey.findProgramAddress(
@@ -232,7 +232,7 @@ describe("daoship_programs", () => {
     assert.strictEqual(initializedWhitelist.project.toBase58(), project.toBase58());
     assert.strictEqual(initializedWhitelist.isWhitelisted, false);
     assert.strictEqual(initializedWhitelist.bump, _projectWhitelistBump);
-  })
+  });
 
   it("Can whitelist project", async () => {
     await program.methods.whitelistProject()
@@ -248,7 +248,7 @@ describe("daoship_programs", () => {
     const whitelisted = await program.account.projectWhitelist.fetch(projectWhitelist);
 
     assert.strictEqual(whitelisted.isWhitelisted, true);
-  })
+  });
 
   it("Can initialize job listing", async () => {
     const jobLister = await program.account.project.fetch(project);
@@ -478,7 +478,7 @@ describe("daoship_programs", () => {
     assert.strictEqual(createdBountyApplication.userTokenAccount.toBase58(), userBountyTokenAccount.toBase58());
     assert.strictEqual(JSON.stringify(createdBountyApplication.applicationStatus), JSON.stringify({noUpdate: {}}));
     assert.strictEqual(createdBountyApplication.bump, _bountyApplicationBump);
-  })
+  });
 
   it('Can approve user for bounty', async () => {
     await program.methods.approveUserForBounty()
@@ -497,7 +497,7 @@ describe("daoship_programs", () => {
 
     assert.strictEqual(JSON.stringify(approvedApplication.applicationStatus), JSON.stringify({approved: {}}));
     assert.strictEqual(asstBounty.approved.toNumber(), 1);
-  })
+  });
 
   it('Can submit bounty for review', async () => {
     await program.methods.submitBountyForReview('https://submission.bounty.io')
@@ -517,5 +517,46 @@ describe("daoship_programs", () => {
     assert.strictEqual(submittedBounty.submissionLink, 'https://submission.bounty.io');
     assert.strictEqual(submittedUser.reputation.toNumber(), userRepCount + 5);
     userRepCount += 5;
-  })
+  });
+
+  it('Can accept bounty submission', async () => {
+    await program.methods.acceptBountySubmission()
+      .accounts({
+        bountyApplication: bountyApplication,
+        bounty: bounty,
+        project: project,
+        dao: dao,
+        user: user,
+        authority: projectAuthority.publicKey,
+        tokenMint: bountyTokenMint,
+        bountyVaultTokenAccount: bountyVault,
+        userTokenAccount: userBountyTokenAccount,
+        vaultAuthority: bountyVaultAuthority,
+        tokenProgram: TOKEN_PROGRAM_ID,
+      })
+      .signers([projectAuthority])
+      .rpc();
+
+    const asstProject = await program.account.project.fetch(project);
+    const asstDao = await program.account.dao.fetch(dao);
+    const asstUser = await program.account.user.fetch(user);
+    const asstBountyAppl = await program.account.bountyApplication.fetch(bountyApplication);
+    const asstBounty = await program.account.bounty.fetch(bounty);
+
+    assert.strictEqual(asstProject.availableBounties.toNumber(), 0);
+    assert.strictEqual(asstProject.completedBounties.toNumber(), 1);
+    assert.strictEqual(asstProject.reputation.toNumber(), projectRepCount + 15);
+    projectRepCount += 15;
+    assert.strictEqual(asstDao.availableBounties.toNumber(), 0);
+    assert.strictEqual(asstDao.completedBounties.toNumber(), 1);
+    assert.strictEqual(asstUser.completedBounties.toNumber(), 1);
+    assert.strictEqual(asstUser.reputation.toNumber(), userRepCount + 20);
+    userRepCount += 20;
+    assert.strictEqual(JSON.stringify(asstBountyAppl.applicationStatus), JSON.stringify({ accepted: {} }));
+    assert.strictEqual(asstBounty.isCompleted, true);
+    assert.strictEqual(asstBounty.bountyWinner.toBase58(), user.toBase58());
+
+    const userTokenAccount = await getAccount(provider.connection, userBountyTokenAccount);
+    assert.strictEqual(userTokenAccount.amount.toString(), bountyAmount.toNumber().toString());
+  });
 });
