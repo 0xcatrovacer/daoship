@@ -39,6 +39,7 @@ describe("daoship_programs", () => {
   let user: PublicKey = null;
   let userAuthority: Keypair = null;
   let userBountyTokenAccount: PublicKey = null;
+  let userRepCount: number = null;
 
   let jobApplication = null;
 
@@ -496,5 +497,25 @@ describe("daoship_programs", () => {
 
     assert.strictEqual(JSON.stringify(approvedApplication.applicationStatus), JSON.stringify({approved: {}}));
     assert.strictEqual(asstBounty.approved.toNumber(), 1);
+  })
+
+  it('Can submit bounty for review', async () => {
+    await program.methods.submitBountyForReview('https://submission.bounty.io')
+      .accounts({
+        bountyApplication: bountyApplication,
+        bounty: bounty,
+        project: project,
+        user: user,
+        authority: userAuthority.publicKey,
+      })
+      .signers([userAuthority])
+      .rpc()
+
+    const submittedBounty = await program.account.bountyApplication.fetch(bountyApplication);
+    const submittedUser = await program.account.user.fetch(user);
+
+    assert.strictEqual(submittedBounty.submissionLink, 'https://submission.bounty.io');
+    assert.strictEqual(submittedUser.reputation.toNumber(), userRepCount + 5);
+    userRepCount += 5;
   })
 });
