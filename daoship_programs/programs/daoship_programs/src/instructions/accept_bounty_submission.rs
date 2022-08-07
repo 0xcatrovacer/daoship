@@ -95,7 +95,7 @@ pub fn handler(ctx: Context<AcceptBountySubmission>) -> Result<()> {
     bounty_application.application_status = BountyStatus::Accepted;
     
     bounty.is_completed = true;
-    bounty.bounty_winner = *ctx.accounts.authority.key;
+    bounty.bounty_winner = user.key();
 
     let (_vault_authority, _vault_authority_bump) =
             Pubkey::find_program_address(&[&BOUNTY_ESCROW_PDA_SEEDS], ctx.program_id);
