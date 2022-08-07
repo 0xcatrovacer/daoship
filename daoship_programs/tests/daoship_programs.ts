@@ -36,10 +36,14 @@ describe("daoship_programs", () => {
   let bountyTokenMint: PublicKey = null;
   let bountyAmount = new anchor.BN(5000);
 
+  let user: PublicKey = null;
+  let userAuthority: Keypair = null;
+
   it("Can initialize the state of the program", async () => {
     mintAuthority = anchor.web3.Keypair.generate();
     daoAuthority = anchor.web3.Keypair.generate();
     projectAuthority = anchor.web3.Keypair.generate();
+    userAuthority = anchor.web3.Keypair.generate();
 
     const fundMintAuthority = await program.provider.connection.requestAirdrop(
       mintAuthority.publicKey, 10 * LAMPORTS_PER_SOL
@@ -50,10 +54,14 @@ describe("daoship_programs", () => {
     const fundProjectAuthority = await program.provider.connection.requestAirdrop(
       projectAuthority.publicKey, 5 * LAMPORTS_PER_SOL
     );
+    const fundUserAuthority = await program.provider.connection.requestAirdrop(
+      userAuthority.publicKey, 5 * LAMPORTS_PER_SOL
+    );
 
     await program.provider.connection.confirmTransaction(fundMintAuthority);
     await program.provider.connection.confirmTransaction(fundDaoAuthority);
     await program.provider.connection.confirmTransaction(fundProjectAuthority);
+    await program.provider.connection.confirmTransaction(fundUserAuthority);
 
     usdcMint = await createMint(
       provider.connection,
@@ -353,7 +361,37 @@ describe("daoship_programs", () => {
     assert.strictEqual(bountyListerProject.totalBounties.toNumber(), projectBountyCount + 1);
     projectBountyCount += 1;
     assert.strictEqual(bountyListerProject.availableBounties.toNumber(), 1);
+    assert.strictEqual(bountyListerProject.reputation.toNumber(), projectRepCount + 1);
+    projectRepCount += 1;
 
     assert.strictEqual(asstDao.availableBounties.toNumber(), 1);
+  });
+
+  it("Can initialize user", async () => {
+    const [_user, _userBump] = await anchor.web3.PublicKey.findProgramAddress(
+      [
+        anchor.utils.bytes.utf8.encode('user'),
+        userAuthority.publicKey.toBuffer()
+      ],
+      program.programId,
+    );
+
+    user = _user;
+
+    await program.methods.initUser('catrovacer.sol', 'Seek and you shall find')
+      .accounts({
+        user: user,
+        authority: userAuthority.publicKey,
+        systemProgram: anchor.web3.SystemProgram.programId,
+      })
+      .signers([userAuthority])
+      .rpc();
+
+    const createdUser = await program.account.user.fetch(user);
+
+    assert.strictEqual(createdUser.displayName, 'catrovacer.sol');
+    assert.strictEqual(createdUser.authority.toBase58(), userAuthority.publicKey.toBase58());
+    assert.strictEqual(createdUser.bio, 'Seek and you shall find');
+    assert.strictEqual(createdUser.bump, _userBump);
   })
 });
