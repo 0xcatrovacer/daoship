@@ -1,6 +1,6 @@
 import * as anchor from "@project-serum/anchor";
 import { Address, Program } from "@project-serum/anchor";
-import {createAccount, createMint} from '@solana/spl-token'
+import {createAccount, createMint, getAccount, mintTo, TOKEN_PROGRAM_ID} from '@solana/spl-token'
 import {LAMPORTS_PER_SOL, PublicKey, Keypair} from '@solana/web3.js'
 import { assert } from "chai";
 import { DaoshipPrograms } from "../target/types/daoship_programs";
@@ -22,11 +22,19 @@ describe("daoship_programs", () => {
   let projectAuthority: Keypair = null;
   let projectUsdcTokenAccount: PublicKey = null;
   let projectJobCount: number = null;
+  let projectBountyCount: number = null;
   let projectRepCount: number = null;
+  let projectBountyTokenAccount: PublicKey = null;
 
   let projectWhitelist: PublicKey = null;
 
   let job: PublicKey = null;
+
+  let bounty: PublicKey = null;
+  let bountyVault: PublicKey = null;
+  let bountyVaultAuthority: PublicKey = null;
+  let bountyTokenMint: PublicKey = null;
+  let bountyAmount = new anchor.BN(5000);
 
   it("Can initialize the state of the program", async () => {
     mintAuthority = anchor.web3.Keypair.generate();
@@ -53,22 +61,45 @@ describe("daoship_programs", () => {
       mintAuthority.publicKey,
       mintAuthority.publicKey,
       6
-    )
+    );
+
+    bountyTokenMint = await createMint(
+      provider.connection,
+      projectAuthority,
+      projectAuthority.publicKey,
+      projectAuthority.publicKey,
+      0
+    );
 
     daoUsdcTokenAccount = await createAccount(
       provider.connection,
       daoAuthority,
       usdcMint,
       daoAuthority.publicKey,
-    )
+    );
 
     projectUsdcTokenAccount = await createAccount(
       provider.connection,
       projectAuthority,
       usdcMint,
       projectAuthority.publicKey,
-    )
+    );
 
+    projectBountyTokenAccount = await createAccount(
+      provider.connection,
+      projectAuthority,
+      bountyTokenMint,
+      projectAuthority.publicKey
+    );
+
+    await mintTo(
+      provider.connection,
+      projectAuthority,
+      bountyTokenMint,
+      projectBountyTokenAccount,
+      projectAuthority,
+      50000
+    );
   });
 
   it("Can initialize DAO", async () => {
@@ -244,5 +275,85 @@ describe("daoship_programs", () => {
     projectRepCount += 3;
 
     assert.strictEqual(asstDao.availableJobs.toNumber(), 1);
+  });
+
+  it("Can initialize bounty listing", async () => {
+    const bountyLister = await program.account.project.fetch(project);
+    projectBountyCount = bountyLister.totalBounties.toNumber();
+
+    const [_bounty, _bountyBump] = await anchor.web3.PublicKey.findProgramAddress(
+      [
+        anchor.utils.bytes.utf8.encode('bounty'),
+        dao.toBuffer(),
+        project.toBuffer(),
+        Buffer.from(projectBountyCount.toString()),
+      ],
+      program.programId,
+    )
+
+    bounty = _bounty
+
+    const [_bountyVault, _bountyVaultBump] = await anchor.web3.PublicKey.findProgramAddress(
+      [
+        anchor.utils.bytes.utf8.encode('bounty-vault'),
+        dao.toBuffer(),
+        project.toBuffer(),
+        Buffer.from(projectBountyCount.toString())
+      ],
+      program.programId,
+    )
+
+    bountyVault = _bountyVault
+
+    const [_bountyVaultAuthority, _vaultAuthorityBump] = await anchor.web3.PublicKey.findProgramAddress(
+      [
+        Buffer.from('bounty-escrow')
+      ],
+      program.programId,
+    )
+
+    bountyVaultAuthority = _bountyVaultAuthority;
+
+    await program.methods.initBountyListing(bountyAmount, 'https://bounty.project.io')
+      .accounts({
+        bounty: bounty,
+        dao: dao,
+        project: project,
+        bountyVaultTokenAccount: bountyVault,
+        bountyVaultMint: bountyTokenMint,
+        authorityTokenAccount: projectBountyTokenAccount,
+        authority: projectAuthority.publicKey,
+        projectWhitelist: projectWhitelist,
+        systemProgram: anchor.web3.SystemProgram.programId,
+        clock: anchor.web3.SYSVAR_CLOCK_PUBKEY,
+        tokenProgram: TOKEN_PROGRAM_ID,
+        rent: anchor.web3.SYSVAR_RENT_PUBKEY,
+      })
+      .signers([projectAuthority])
+      .rpc();
+
+    const createdBounty = await program.account.bounty.fetch(bounty);
+    const bountyVaultTokenAccount = await getAccount(provider.connection, bountyVault);
+    const bountyListerProject = await program.account.project.fetch(project);
+    const asstDao = await program.account.dao.fetch(dao);
+    
+    assert.strictEqual(createdBounty.project.toBase58(), project.toBase58());
+    assert.strictEqual(createdBounty.dao.toBase58(), dao.toBase58());
+    assert.strictEqual(createdBounty.bountyVaultMint.toBase58(), bountyTokenMint.toBase58());
+    assert.strictEqual(createdBounty.bountyVaultAccount.toBase58(), bountyVault.toBase58());
+    assert.strictEqual(createdBounty.amount.toNumber(), bountyAmount.toNumber());
+    assert.strictEqual(createdBounty.bountyDescription, 'https://bounty.project.io');
+    assert.strictEqual(createdBounty.isCompleted, false);
+    assert.strictEqual(createdBounty.bump, _bountyBump);
+
+    assert.strictEqual(bountyVaultTokenAccount.mint.toBase58(), bountyTokenMint.toBase58());
+    assert.strictEqual(bountyVaultTokenAccount.owner.toBase58(), bountyVaultAuthority.toBase58());
+    assert.strictEqual(bountyVaultTokenAccount.amount.toString(), bountyAmount.toNumber().toString());
+
+    assert.strictEqual(bountyListerProject.totalBounties.toNumber(), projectBountyCount + 1);
+    projectBountyCount += 1;
+    assert.strictEqual(bountyListerProject.availableBounties.toNumber(), 1);
+
+    assert.strictEqual(asstDao.availableBounties.toNumber(), 1);
   })
 });
