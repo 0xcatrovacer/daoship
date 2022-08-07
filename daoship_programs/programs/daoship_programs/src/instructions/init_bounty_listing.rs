@@ -11,7 +11,7 @@ pub struct InitBountyListing<'info> {
     #[account(
         init,
         seeds=[
-            b"job",
+            b"bounty",
             dao.key().as_ref(), 
             project.key().as_ref(), 
             project.total_bounties.to_string().as_bytes(),
@@ -99,9 +99,11 @@ pub fn handler(ctx: Context<InitBountyListing>, amount: u64, description: String
     }
 
     let bounty = &mut ctx.accounts.bounty;
+    let project = &mut ctx.accounts.project;
+    let dao = &mut ctx.accounts.dao;
 
-    bounty.project = ctx.accounts.project.key();
-    bounty.dao = ctx.accounts.dao.key();
+    bounty.project = project.key();
+    bounty.dao = dao.key();
     bounty.bounty_vault_mint = ctx.accounts.bounty_vault_mint.key();
     bounty.bounty_vault_account = ctx.accounts.bounty_vault_token_account.key();
     bounty.amount = amount;
@@ -112,7 +114,11 @@ pub fn handler(ctx: Context<InitBountyListing>, amount: u64, description: String
     bounty.is_completed = false;
     bounty.bump = *ctx.bumps.get("bounty").unwrap();
 
-    ctx.accounts.project.reputation += CREATE_BOUNTY_REP;
+    project.reputation += CREATE_BOUNTY_REP;
+    project.total_bounties += 1;
+    project.available_bounties += 1;
+    
+    dao.available_bounties += 1;
 
     let (vault_authority, _vault_authority_bump) = Pubkey::find_program_address(&[BOUNTY_ESCROW_PDA_SEEDS], ctx.program_id);
 
