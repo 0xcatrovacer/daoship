@@ -2,7 +2,7 @@ import * as anchor from "@project-serum/anchor";
 import { Address, Program } from "@project-serum/anchor";
 import {createAccount, createMint, getAccount, mintTo, TOKEN_PROGRAM_ID} from '@solana/spl-token'
 import {LAMPORTS_PER_SOL, PublicKey, Keypair} from '@solana/web3.js'
-import { assert } from "chai";
+import { assert, use } from "chai";
 import { DaoshipPrograms } from "../target/types/daoship_programs";
 
 describe("daoship_programs", () => {
@@ -38,8 +38,11 @@ describe("daoship_programs", () => {
 
   let user: PublicKey = null;
   let userAuthority: Keypair = null;
+  let userBountyTokenAccount: PublicKey = null;
 
   let jobApplication = null;
+
+  let bountyApplication = null;
 
   it("Can initialize the state of the program", async () => {
     mintAuthority = anchor.web3.Keypair.generate();
@@ -100,6 +103,13 @@ describe("daoship_programs", () => {
       projectAuthority,
       bountyTokenMint,
       projectAuthority.publicKey
+    );
+
+    userBountyTokenAccount = await createAccount(
+      provider.connection,
+      userAuthority,
+      bountyTokenMint,
+      userAuthority.publicKey
     );
 
     await mintTo(
@@ -431,5 +441,41 @@ describe("daoship_programs", () => {
     assert.strictEqual(createdJobApplication.resume, 'https://resume.user.io');
     assert.strictEqual(JSON.stringify(createdJobApplication.applicationStatus), JSON.stringify({noUpdate: {}}));
     assert.strictEqual(createdJobApplication.bump, _jobApplicationBump);
+  });
+
+  it('Can initialize bounty application', async () => {
+    const [_bountyApplication, _bountyApplicationBump] = await anchor.web3.PublicKey.findProgramAddress(
+      [
+        anchor.utils.bytes.utf8.encode('bounty-application'),
+        bounty.toBuffer(),
+        user.toBuffer(),
+      ],
+      program.programId,
+    );
+
+    bountyApplication = _bountyApplication;
+
+    await program.methods.initBountyApplication()
+      .accounts({
+        bountyApplication: bountyApplication,
+        bounty: bounty,
+        user: user,
+        project: project,
+        userTokenAccount: userBountyTokenAccount,
+        authority: userAuthority.publicKey,
+        clock: anchor.web3.SYSVAR_CLOCK_PUBKEY,
+        systemProgram: anchor.web3.SystemProgram.programId,
+      })
+      .signers([userAuthority])
+      .rpc();
+
+    const createdBountyApplication = await program.account.bountyApplication.fetch(bountyApplication);
+
+    assert.strictEqual(createdBountyApplication.bounty.toBase58(), bounty.toBase58());
+    assert.strictEqual(createdBountyApplication.project.toBase58(), project.toBase58());
+    assert.strictEqual(createdBountyApplication.user.toBase58(), user.toBase58());
+    assert.strictEqual(createdBountyApplication.userTokenAccount.toBase58(), userBountyTokenAccount.toBase58());
+    assert.strictEqual(JSON.stringify(createdBountyApplication.applicationStatus), JSON.stringify({noUpdate: {}}));
+    assert.strictEqual(createdBountyApplication.bump, _bountyApplicationBump);
   })
 });
