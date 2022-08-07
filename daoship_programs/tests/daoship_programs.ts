@@ -478,4 +478,23 @@ describe("daoship_programs", () => {
     assert.strictEqual(JSON.stringify(createdBountyApplication.applicationStatus), JSON.stringify({noUpdate: {}}));
     assert.strictEqual(createdBountyApplication.bump, _bountyApplicationBump);
   })
+
+  it('Can approve user for bounty', async () => {
+    await program.methods.approveUserForBounty()
+      .accounts({
+        bountyApplication: bountyApplication,
+        bounty: bounty,
+        project: project,
+        user: user,
+        authority: projectAuthority.publicKey,
+      })
+      .signers([projectAuthority])
+      .rpc();
+
+    const approvedApplication = await program.account.bountyApplication.fetch(bountyApplication);
+    const asstBounty = await program.account.bounty.fetch(bounty);
+
+    assert.strictEqual(JSON.stringify(approvedApplication.applicationStatus), JSON.stringify({approved: {}}));
+    assert.strictEqual(asstBounty.approved.toNumber(), 1);
+  })
 });
