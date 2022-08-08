@@ -21,11 +21,11 @@
 }
 
 .navbar__links {
-    margin-right: 40px;
+    margin-right: 20px;
 }
 
 .navbar__link {
-    margin-right: 30px;
+    margin-right: 40px;
     font-size: 15px;
     cursor: pointer;
     color: rgba(255, 255, 255, 0.701);
