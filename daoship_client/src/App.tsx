@@ -1,12 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
+import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
+import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
+import { PhantomWalletAdapter, SolflareWalletAdapter, GlowWalletAdapter } from '@solana/wallet-adapter-wallets';
+import { clusterApiUrl } from '@solana/web3.js';
+import { useMemo } from 'react';
+
 import './App.css';
+import Navbar from './components/Navbar/Navbar';
+
+require("@solana/wallet-adapter-react-ui/styles.css");
+
+const network = WalletAdapterNetwork.Devnet;
 
 function App() {
-  return (
-    <div className="App">
+  const endpoint = useMemo(() => clusterApiUrl(network), [network]);
+  
+  const wallets = useMemo(
+    () => [
+        new PhantomWalletAdapter(),
+        new GlowWalletAdapter(),
+        new SolflareWalletAdapter({ network }),
+    ],
+    [network]
+  );
 
-    </div>
+  return (
+    <ConnectionProvider endpoint={endpoint}>
+      <WalletProvider wallets={wallets} autoConnect>
+        <div className="App">
+          <Navbar />
+        </div>
+      </WalletProvider>
+    </ConnectionProvider>
   );
 }
 
