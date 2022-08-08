@@ -6,6 +6,7 @@ import { useMemo } from 'react';
 
 import './App.css';
 import Navbar from './components/Navbar/Navbar';
+import LandingPage from './pages/LandingPage/LandingPage';
 
 require("@solana/wallet-adapter-react-ui/styles.css");
 
@@ -28,6 +29,7 @@ function App() {
       <WalletProvider wallets={wallets} autoConnect>
         <div className="App">
           <Navbar />
+          <LandingPage />
         </div>
       </WalletProvider>
     </ConnectionProvider>
