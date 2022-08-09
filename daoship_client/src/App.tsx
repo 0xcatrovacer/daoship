@@ -6,7 +6,7 @@ import { useMemo } from 'react';
 
 import './App.css';
 import Navbar from './components/Navbar/Navbar';
-import LandingPage from './pages/LandingPage/LandingPage';
+import LandingPage from './pages/LandingPage';
 
 require("@solana/wallet-adapter-react-ui/styles.css");
 
