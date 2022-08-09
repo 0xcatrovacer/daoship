@@ -1,33 +1,24 @@
+import { useState } from 'react'
+import OnboardDao from './OnboardDao'
+import OnboardDev from './OnboardDev'
+import OnboardMain from './OnboardMain'
 import './OnboardOption.css'
+import OnboardProject from './OnboardProject'
 
 type OnboardOptionProps = {
     setDisplayType: (displayType: string) => void
 }
 
 function OnboardOption(props: OnboardOptionProps) {
+  const [onboardType, setOnboardType] = useState('onboard_main')
+
   return (
-    <div className="onboard__container">
-        <div className="onboard__choice">
-            <div className="ob__text">
-                Create your DAO Account where you can whitelist projects so that they<br />can post jobs and bounties for your DAO members!
-            </div>
-            <button className="ob__button">Onboard as DAO</button>
-        </div>
-
-        <div className="onboard__choice">
-            <div className="ob__text">
-                Create a Project Account to post Job & Bounty listings<br />for Solana Devs on DAO Pages!
-            </div>
-            <button className="ob__button">Onboard as Project</button>
-        </div>
-
-        <div className="onboard__choice">
-            <div className="ob__text">
-                Create a Developer Account to earn in web3 through jobs and bounties!
-            </div>
-            <button className="ob__button">Onboard as Developer</button>
-        </div>
-    </div>
+    <span>
+        {onboardType == 'onboard_main' && <OnboardMain setOnboardType={setOnboardType} />}
+        {onboardType == 'onboard_dao' && <OnboardDao />}
+        {onboardType == 'onboard_project' && <OnboardProject />}
+        {onboardType == 'onboard_developer' && <OnboardDev />}
+    </span>
   )
 }
 
