@@ -1,0 +1,29 @@
+.onboard__container {
+    text-align: left;
+    width: 980px;
+}
+
+.onboard__choice {
+    margin-top: 80px;
+}
+
+.ob__text {
+    font-size: 20px;
+}
+
+.ob__button {
+    margin-top: 30px;
+    height: 50px;
+    width: 280px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: rgb(0, 255, 174);
+    border: 3px solid rgb(0, 255, 174);
+    border-radius: 25px;
+}
+
+.ob__button:hover {
+    background-color: transparent;
+    color: rgb(0, 255, 174);
+}
