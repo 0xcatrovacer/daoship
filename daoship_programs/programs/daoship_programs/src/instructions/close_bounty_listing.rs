@@ -74,7 +74,7 @@ impl<'info> CloseBountyListing<'info> {
 }
 
 pub fn handler(ctx: Context<CloseBountyListing>) -> Result<()> {
-    if *ctx.accounts.authority.to_account_info().key != ctx.accounts.project.authority.key() {
+    if *ctx.accounts.authority.to_account_info().key != ctx.accounts.project.authority {
         return Err(ErrorCodes::Unauthorized.into());
     }
 
