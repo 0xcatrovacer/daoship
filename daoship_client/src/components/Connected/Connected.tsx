@@ -1,16 +1,69 @@
-import React, { useState } from 'react'
-import NotRegistered from '../NotRegistered/NotRegistered';
-import OnboardOption from '../OnboardOption/OnboardOption';
+import React, { useEffect, useState } from "react";
+import { Program, AnchorProvider, Address } from "@project-serum/anchor";
+import NotRegistered from "../NotRegistered/NotRegistered";
+import OnboardOption from "../OnboardOption/OnboardOption";
+import { useWallet } from "@solana/wallet-adapter-react";
 
-function Connected() {
-  const [displayType, setDisplayType] = useState('not_registered');
+type ConnectedProps = {
+    program: Program;
+    provider: AnchorProvider;
+};
 
-  return (
-    <div>
-        {displayType == 'not_registered' && <NotRegistered setDisplayType={setDisplayType} />}
-        {displayType == 'onboarding' && <OnboardOption setDisplayType={setDisplayType} />}
-    </div>
-  )
+function Connected({ program, provider }: ConnectedProps) {
+    const [displayType, setDisplayType] = useState("");
+    const [payload, setPayload] = useState<any>();
+
+    const wallet = useWallet();
+
+    const findWalletType = async () => {
+        try {
+            console.log(wallet.publicKey?.toBase58());
+            try {
+                const dao = await program.account.dao.fetch(
+                    wallet.publicKey?.toBase58() as Address
+                );
+                setPayload(dao);
+                setDisplayType("isDao");
+            } catch (e) {
+                try {
+                    const project = await program.account.project.fetch(
+                        wallet.publicKey?.toBase58() as Address
+                    );
+
+                    setPayload(project);
+                    setDisplayType("isProject");
+                } catch (e) {
+                    try {
+                        const user = await program.account.user.fetch(
+                            wallet.publicKey?.toBase58() as Address
+                        );
+
+                        setPayload(user);
+                        setDisplayType("isUser");
+                    } catch (e) {
+                        setDisplayType("not_registered");
+                    }
+                }
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    useEffect(() => {
+        findWalletType();
+    }, []);
+
+    return (
+        <div>
+            {displayType == "not_registered" && (
+                <NotRegistered setDisplayType={setDisplayType} />
+            )}
+            {displayType == "onboarding" && (
+                <OnboardOption setDisplayType={setDisplayType} />
+            )}
+        </div>
+    );
 }
 
-export default Connected
+export default Connected;

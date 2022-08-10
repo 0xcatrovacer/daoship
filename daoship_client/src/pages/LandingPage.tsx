@@ -1,17 +1,24 @@
-import { useWallet } from '@solana/wallet-adapter-react'
-import Connected from '../components/Connected/Connected';
-import NotConnected from '../components/NotConnected/NotConnected'
+import { useWallet } from "@solana/wallet-adapter-react";
+import { Program, AnchorProvider } from "@project-serum/anchor";
+import Connected from "../components/Connected/Connected";
+import NotConnected from "../components/NotConnected/NotConnected";
 
-function LandingPage() {
+type LandingPageProps = {
+    program: Program;
+    provider: AnchorProvider;
+};
 
-  const wallet = useWallet();
+function LandingPage({ program, provider }: LandingPageProps) {
+    const wallet = useWallet();
 
-  return (
-    <span>
-      {!wallet.connected && <NotConnected />}
-      {wallet.connected && <Connected />}
-    </span>
-  )
+    return (
+        <span>
+            {!wallet.connected && <NotConnected />}
+            {wallet.connected && (
+                <Connected program={program} provider={provider} />
+            )}
+        </span>
+    );
 }
 
-export default LandingPage
+export default LandingPage;
