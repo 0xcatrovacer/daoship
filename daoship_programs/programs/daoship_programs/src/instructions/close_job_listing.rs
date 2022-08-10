@@ -29,7 +29,7 @@ pub struct CloseJobListing<'info> {
 }
 
 pub fn handler(ctx: Context<CloseJobListing>) -> Result<()> {
-    if *ctx.accounts.authority.to_account_info().key != ctx.accounts.project.authority.key() {
+    if *ctx.accounts.authority.to_account_info().key != ctx.accounts.project.authority {
         return Err(ErrorCodes::Unauthorized.into());
     }
 

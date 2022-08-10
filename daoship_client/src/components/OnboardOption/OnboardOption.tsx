@@ -1,34 +1,52 @@
-import './OnboardOption.css'
+import { Program, AnchorProvider } from "@project-serum/anchor";
+import { useState } from "react";
+import OnboardDao from "./OnboardDao";
+import OnboardDev from "./OnboardDev";
+import OnboardMain from "./OnboardMain";
+import "./OnboardOption.css";
+import OnboardProject from "./OnboardProject";
 
 type OnboardOptionProps = {
-    setDisplayType: (displayType: string) => void
+    setDisplayType: (displayType: string) => void;
+    program: Program;
+    provider: AnchorProvider;
+};
+
+function OnboardOption({
+    setDisplayType,
+    program,
+    provider,
+}: OnboardOptionProps) {
+    const [onboardType, setOnboardType] = useState("onboard_main");
+
+    return (
+        <span>
+            {onboardType === "onboard_main" && (
+                <OnboardMain setOnboardType={setOnboardType} />
+            )}
+            {onboardType === "onboard_dao" && (
+                <OnboardDao
+                    setDisplayType={setDisplayType}
+                    program={program}
+                    provider={provider}
+                />
+            )}
+            {onboardType === "onboard_project" && (
+                <OnboardProject
+                    setDisplayType={setDisplayType}
+                    program={program}
+                    provider={provider}
+                />
+            )}
+            {onboardType === "onboard_developer" && (
+                <OnboardDev
+                    setDisplayType={setDisplayType}
+                    program={program}
+                    provider={provider}
+                />
+            )}
+        </span>
+    );
 }
 
-function OnboardOption(props: OnboardOptionProps) {
-  return (
-    <div className="onboard__container">
-        <div className="onboard__choice">
-            <div className="ob__text">
-                Create your DAO Account where you can whitelist projects so that they<br />can post jobs and bounties for your DAO members!
-            </div>
-            <button className="ob__button">Onboard as DAO</button>
-        </div>
-
-        <div className="onboard__choice">
-            <div className="ob__text">
-                Create a Project Account to post Job & Bounty listings<br />for Solana Devs on DAO Pages!
-            </div>
-            <button className="ob__button">Onboard as Project</button>
-        </div>
-
-        <div className="onboard__choice">
-            <div className="ob__text">
-                Create a Developer Account to earn in web3 through jobs and bounties!
-            </div>
-            <button className="ob__button">Onboard as Developer</button>
-        </div>
-    </div>
-  )
-}
-
-export default OnboardOption
+export default OnboardOption;

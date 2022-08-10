@@ -12,9 +12,9 @@ function NotConnected() {
         </div>
 
         <div className="notconnected__connectbuttoncont">
-        <WalletModalProvider>
-            <WalletMultiButton className='notconnected__connectbutton' />
-        </WalletModalProvider>
+          <WalletModalProvider>
+              <WalletMultiButton className='notconnected__connectbutton' />
+          </WalletModalProvider>
         </div>
   </div>
   )

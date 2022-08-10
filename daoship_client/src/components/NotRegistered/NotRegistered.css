@@ -3,14 +3,18 @@
 }
 
 .notregistered__hero {
-    background: linear-gradient(90deg, rgb(157, 0, 255) 0%, rgb(0, 255, 174) 60%);
+    background: linear-gradient(
+        90deg,
+        rgb(157, 0, 255) 0%,
+        rgb(0, 255, 174) 60%
+    );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     text-fill-color: transparent;
     font-weight: 800;
     font-size: 50px;
-    font-family: 'Open Sans';
+    font-family: "Open Sans";
 }
 
 .notregistered__buttoncont {
@@ -28,7 +32,7 @@
     justify-content: center;
     cursor: pointer;
     font-weight: bold;
-    font-family: 'Ubuntu';
+    font-family: "Ubuntu";
 }
 
 .notregistered__button:hover {

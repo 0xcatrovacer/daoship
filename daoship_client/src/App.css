@@ -1,14 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@800&family=Ubuntu&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@500;800&family=Ubuntu&display=swap");
 
 .App {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 body {
     background-color: #20202a;
     color: white;
-    font-family: 'Ubuntu';
+    font-family: "Ubuntu";
 }
