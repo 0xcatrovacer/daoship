@@ -23,7 +23,7 @@ function Connected({ program, provider }: ConnectedProps) {
                     wallet.publicKey?.toBase58() as Address
                 );
                 setPayload(dao);
-                setDisplayType("isDao");
+                setDisplayType("is_dao");
             } catch (e) {
                 try {
                     const project = await program.account.project.fetch(
@@ -31,7 +31,7 @@ function Connected({ program, provider }: ConnectedProps) {
                     );
 
                     setPayload(project);
-                    setDisplayType("isProject");
+                    setDisplayType("is_project");
                 } catch (e) {
                     try {
                         const user = await program.account.user.fetch(
@@ -39,7 +39,7 @@ function Connected({ program, provider }: ConnectedProps) {
                         );
 
                         setPayload(user);
-                        setDisplayType("isUser");
+                        setDisplayType("is_user");
                     } catch (e) {
                         setDisplayType("not_registered");
                     }
@@ -60,7 +60,11 @@ function Connected({ program, provider }: ConnectedProps) {
                 <NotRegistered setDisplayType={setDisplayType} />
             )}
             {displayType == "onboarding" && (
-                <OnboardOption setDisplayType={setDisplayType} />
+                <OnboardOption
+                    setDisplayType={setDisplayType}
+                    program={program}
+                    provider={provider}
+                />
             )}
         </div>
     );

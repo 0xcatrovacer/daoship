@@ -55,9 +55,12 @@ function App() {
         const connection = new Connection(networkUrl);
         const provider = new AnchorProvider(
             connection,
-            window.solana || null,
+            window.solana,
             opts.preflightCommitment as ConfirmOptions
         );
+
+        console.log(provider);
+        console.log(connection);
 
         setConnection(connection);
         return provider;

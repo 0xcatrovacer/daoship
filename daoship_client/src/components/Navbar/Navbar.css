@@ -10,7 +10,8 @@
 .navbar__logo {
     font-size: 24px;
     color: rgb(0, 255, 174);
-    font-family: 'Open Sans';
+    font-family: "Open Sans";
+    font-weight: 800;
     letter-spacing: 0.05em;
 }
 

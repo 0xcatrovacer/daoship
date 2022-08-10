@@ -1,9 +1,14 @@
-import React from 'react'
+import React from "react";
+import { AnchorProvider, Program } from "@project-serum/anchor";
 
-function OnboardProject() {
-  return (
-    <div>OnboardProject</div>
-  )
+type OnboardOptionProps = {
+    setDisplayType: (displayType: string) => void;
+    program: Program;
+    provider: AnchorProvider;
+};
+
+function OnboardProject(props: OnboardOptionProps) {
+    return <div>OnboardProject</div>;
 }
 
-export default OnboardProject
+export default OnboardProject;
