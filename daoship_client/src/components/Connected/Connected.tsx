@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Program, AnchorProvider, Address } from "@project-serum/anchor";
+import {
+    Program,
+    AnchorProvider,
+    Address,
+    web3,
+    utils,
+} from "@project-serum/anchor";
 import NotRegistered from "../NotRegistered/NotRegistered";
 import OnboardOption from "../OnboardOption/OnboardOption";
 import { useWallet } from "@solana/wallet-adapter-react";
+import DaoDashboard from "../DaoDashboard/DaoDashboard";
 
 type ConnectedProps = {
     program: Program;
@@ -19,9 +26,17 @@ function Connected({ program, provider }: ConnectedProps) {
         try {
             console.log(wallet.publicKey?.toBase58());
             try {
-                const dao = await program.account.dao.fetch(
-                    wallet.publicKey?.toBase58() as Address
-                );
+                const [daoPDA, setDaoPDA] =
+                    await web3.PublicKey.findProgramAddress(
+                        [
+                            utils.bytes.utf8.encode("dao"),
+                            wallet.publicKey?.toBuffer() as Buffer,
+                        ],
+                        program.programId
+                    );
+
+                const dao = await program.account.dao.fetch(daoPDA);
+                console.log(dao);
                 setPayload(dao);
                 setDisplayType("is_dao");
             } catch (e) {
@@ -56,12 +71,19 @@ function Connected({ program, provider }: ConnectedProps) {
 
     return (
         <div>
-            {displayType == "not_registered" && (
+            {displayType === "not_registered" && (
                 <NotRegistered setDisplayType={setDisplayType} />
             )}
-            {displayType == "onboarding" && (
+            {displayType === "onboarding" && (
                 <OnboardOption
                     setDisplayType={setDisplayType}
+                    program={program}
+                    provider={provider}
+                />
+            )}
+            {displayType === "is_dao" && (
+                <DaoDashboard
+                    payload={payload}
                     program={program}
                     provider={provider}
                 />
