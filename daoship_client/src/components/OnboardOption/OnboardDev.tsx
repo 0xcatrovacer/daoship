@@ -1,12 +1,7 @@
 import React, { useState } from "react";
 import { AnchorProvider, Program, utils, web3 } from "@project-serum/anchor";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { PublicKey, Transaction } from "@solana/web3.js";
-import {
-    createAssociatedTokenAccountInstruction,
-    getAccount,
-    getAssociatedTokenAddress,
-} from "@solana/spl-token";
+import { PublicKey } from "@solana/web3.js";
 
 type OnboardOptionProps = {
     setDisplayType: (displayType: string) => void;
