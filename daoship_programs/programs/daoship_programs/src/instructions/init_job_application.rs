@@ -43,15 +43,18 @@ pub struct InitJobApplication<'info> {
 
 pub fn handler(ctx: Context<InitJobApplication>, resume: String) -> Result<()> {
     let job_application = &mut ctx.accounts.job_application;
-    let job = &mut ctx .accounts.job;
+    let job = &mut ctx.accounts.job;
+    let user = &mut ctx.accounts.user;
 
     job_application.job = job.key();
     job_application.project = ctx.accounts.project.key();
-    job_application.user = ctx.accounts.user.key();
+    job_application.user = user.key();
     job_application.ts = ctx.accounts.clock.unix_timestamp;
     job_application.resume = resume;
     job_application.application_status = JobStatus::NoUpdate;
     job_application.bump = *ctx.bumps.get("job_application").unwrap();
+
+    user.jobs_applied += 1;
 
     job.applications += 1;
 
