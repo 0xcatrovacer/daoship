@@ -1,1275 +1,1148 @@
 {
-  "version": "0.1.0",
-  "name": "daoship_programs",
-  "instructions": [
-    {
-      "name": "initDao",
-      "accounts": [
-        {
-          "name": "dao",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "daoVaultMint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "daoVaultTokenAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "authority",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "name",
-          "type": "string"
-        },
-        {
-          "name": "imgLink",
-          "type": "string"
-        }
-      ]
-    },
-    {
-      "name": "whitelistDao",
-      "accounts": [
-        {
-          "name": "dao",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "daoAuthority",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "authority",
-          "isMut": true,
-          "isSigner": true
-        }
-      ],
-      "args": []
-    },
-    {
-      "name": "initProject",
-      "accounts": [
-        {
-          "name": "project",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "authority",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "projectVaultMint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "projectVaultTokenAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "name",
-          "type": "string"
-        },
-        {
-          "name": "imgLink",
-          "type": "string"
-        }
-      ]
-    },
-    {
-      "name": "initWhitelistProject",
-      "accounts": [
-        {
-          "name": "projectWhitelist",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "dao",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "project",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "authority",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": []
-    },
-    {
-      "name": "whitelistProject",
-      "accounts": [
-        {
-          "name": "projectWhitelist",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "dao",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "project",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "authority",
-          "isMut": true,
-          "isSigner": true
-        }
-      ],
-      "args": []
-    },
-    {
-      "name": "initJobListing",
-      "accounts": [
-        {
-          "name": "job",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "dao",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "project",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "authority",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "projectWhitelist",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "clock",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "description",
-          "type": "string"
-        }
-      ]
-    },
-    {
-      "name": "closeJobListing",
-      "accounts": [
-        {
-          "name": "job",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "dao",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "project",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "authority",
-          "isMut": true,
-          "isSigner": true
-        }
-      ],
-      "args": []
-    },
-    {
-      "name": "initBountyListing",
-      "accounts": [
-        {
-          "name": "bounty",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "dao",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "project",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "bountyVaultTokenAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "bountyVaultMint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "authorityTokenAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "authority",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "projectWhitelist",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "clock",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "amount",
-          "type": "u64"
-        },
-        {
-          "name": "description",
-          "type": "string"
-        }
-      ]
-    },
-    {
-      "name": "closeBountyListing",
-      "accounts": [
-        {
-          "name": "bounty",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "bountyVaultAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "dao",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "project",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "authority",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "projectTokenAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "vaultAuthority",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": []
-    },
-    {
-      "name": "initUser",
-      "accounts": [
-        {
-          "name": "user",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "authority",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "name",
-          "type": "string"
-        },
-        {
-          "name": "bio",
-          "type": "string"
-        }
-      ]
-    },
-    {
-      "name": "initJobApplication",
-      "accounts": [
-        {
-          "name": "jobApplication",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "job",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "project",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "dao",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "user",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "authority",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "clock",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "resume",
-          "type": "string"
-        }
-      ]
-    },
-    {
-      "name": "initBountyApplication",
-      "accounts": [
-        {
-          "name": "bountyApplication",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "bounty",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "user",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "project",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "userTokenAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "authority",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "clock",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": []
-    },
-    {
-      "name": "closeBountyApplication",
-      "accounts": [
-        {
-          "name": "bountyApplication",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "bounty",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "project",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "user",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "authority",
-          "isMut": true,
-          "isSigner": true
-        }
-      ],
-      "args": []
-    },
-    {
-      "name": "approveUserForBounty",
-      "accounts": [
-        {
-          "name": "bountyApplication",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "bounty",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "project",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "user",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "authority",
-          "isMut": true,
-          "isSigner": true
-        }
-      ],
-      "args": []
-    },
-    {
-      "name": "submitBountyForReview",
-      "accounts": [
-        {
-          "name": "bountyApplication",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "bounty",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "project",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "user",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "authority",
-          "isMut": true,
-          "isSigner": true
-        }
-      ],
-      "args": [
-        {
-          "name": "submissionLink",
-          "type": "string"
-        }
-      ]
-    },
-    {
-      "name": "acceptBountySubmission",
-      "accounts": [
-        {
-          "name": "bountyApplication",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "bounty",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "project",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "dao",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "user",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "authority",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "tokenMint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "bountyVaultTokenAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "userTokenAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "vaultAuthority",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": []
-    }
-  ],
-  "accounts": [
-    {
-      "name": "BountyApplication",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "bounty",
-            "docs": [
-              "Bounty being applied to"
+    "version": "0.1.0",
+    "name": "daoship_programs",
+    "instructions": [
+        {
+            "name": "initDao",
+            "accounts": [
+                {
+                    "name": "dao",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "daoVaultMint",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "daoVaultTokenAccount",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "authority",
+                    "isMut": true,
+                    "isSigner": true
+                },
+                {
+                    "name": "systemProgram",
+                    "isMut": false,
+                    "isSigner": false
+                }
             ],
-            "type": "publicKey"
-          },
-          {
-            "name": "project",
-            "docs": [
-              "Project this bounty belongs to"
+            "args": [
+                {
+                    "name": "name",
+                    "type": "string"
+                },
+                {
+                    "name": "imgLink",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "whitelistDao",
+            "accounts": [
+                {
+                    "name": "dao",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "daoAuthority",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "authority",
+                    "isMut": true,
+                    "isSigner": true
+                }
             ],
-            "type": "publicKey"
-          },
-          {
-            "name": "user",
-            "docs": [
-              "User applying for this bounty"
+            "args": []
+        },
+        {
+            "name": "initProject",
+            "accounts": [
+                {
+                    "name": "project",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "authority",
+                    "isMut": true,
+                    "isSigner": true
+                },
+                {
+                    "name": "projectVaultMint",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "projectVaultTokenAccount",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "systemProgram",
+                    "isMut": false,
+                    "isSigner": false
+                }
             ],
-            "type": "publicKey"
-          },
-          {
-            "name": "userTokenAccount",
-            "docs": [
-              "User Token Account"
+            "args": [
+                {
+                    "name": "name",
+                    "type": "string"
+                },
+                {
+                    "name": "imgLink",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "initWhitelistProject",
+            "accounts": [
+                {
+                    "name": "projectWhitelist",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "dao",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "project",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "authority",
+                    "isMut": true,
+                    "isSigner": true
+                },
+                {
+                    "name": "systemProgram",
+                    "isMut": false,
+                    "isSigner": false
+                }
             ],
-            "type": "publicKey"
-          },
-          {
-            "name": "ts",
-            "docs": [
-              "Timestamp of applying"
+            "args": []
+        },
+        {
+            "name": "whitelistProject",
+            "accounts": [
+                {
+                    "name": "projectWhitelist",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "dao",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "project",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "authority",
+                    "isMut": true,
+                    "isSigner": true
+                }
             ],
-            "type": "i64"
-          },
-          {
-            "name": "applicationStatus",
-            "docs": [
-              "Application status"
+            "args": []
+        },
+        {
+            "name": "initJobListing",
+            "accounts": [
+                {
+                    "name": "job",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "dao",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "project",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "authority",
+                    "isMut": true,
+                    "isSigner": true
+                },
+                {
+                    "name": "projectWhitelist",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "systemProgram",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "clock",
+                    "isMut": false,
+                    "isSigner": false
+                }
             ],
+            "args": [
+                {
+                    "name": "description",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "closeJobListing",
+            "accounts": [
+                {
+                    "name": "job",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "dao",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "project",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "authority",
+                    "isMut": true,
+                    "isSigner": true
+                }
+            ],
+            "args": []
+        },
+        {
+            "name": "initBountyListing",
+            "accounts": [
+                {
+                    "name": "bounty",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "dao",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "project",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "bountyVaultTokenAccount",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "bountyVaultMint",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "authorityTokenAccount",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "authority",
+                    "isMut": true,
+                    "isSigner": true
+                },
+                {
+                    "name": "projectWhitelist",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "systemProgram",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "clock",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "tokenProgram",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "rent",
+                    "isMut": false,
+                    "isSigner": false
+                }
+            ],
+            "args": [
+                {
+                    "name": "amount",
+                    "type": "u64"
+                },
+                {
+                    "name": "description",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "closeBountyListing",
+            "accounts": [
+                {
+                    "name": "bounty",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "bountyVaultAccount",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "dao",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "project",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "authority",
+                    "isMut": true,
+                    "isSigner": true
+                },
+                {
+                    "name": "projectTokenAccount",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "vaultAuthority",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "tokenProgram",
+                    "isMut": false,
+                    "isSigner": false
+                }
+            ],
+            "args": []
+        },
+        {
+            "name": "initUser",
+            "accounts": [
+                {
+                    "name": "user",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "authority",
+                    "isMut": true,
+                    "isSigner": true
+                },
+                {
+                    "name": "systemProgram",
+                    "isMut": false,
+                    "isSigner": false
+                }
+            ],
+            "args": [
+                {
+                    "name": "name",
+                    "type": "string"
+                },
+                {
+                    "name": "bio",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "initJobApplication",
+            "accounts": [
+                {
+                    "name": "jobApplication",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "job",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "project",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "dao",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "user",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "authority",
+                    "isMut": true,
+                    "isSigner": true
+                },
+                {
+                    "name": "systemProgram",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "clock",
+                    "isMut": false,
+                    "isSigner": false
+                }
+            ],
+            "args": [
+                {
+                    "name": "resume",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "initBountyApplication",
+            "accounts": [
+                {
+                    "name": "bountyApplication",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "bounty",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "user",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "project",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "userTokenAccount",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "authority",
+                    "isMut": true,
+                    "isSigner": true
+                },
+                {
+                    "name": "clock",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "systemProgram",
+                    "isMut": false,
+                    "isSigner": false
+                }
+            ],
+            "args": []
+        },
+        {
+            "name": "closeBountyApplication",
+            "accounts": [
+                {
+                    "name": "bountyApplication",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "bounty",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "project",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "user",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "authority",
+                    "isMut": true,
+                    "isSigner": true
+                }
+            ],
+            "args": []
+        },
+        {
+            "name": "approveUserForBounty",
+            "accounts": [
+                {
+                    "name": "bountyApplication",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "bounty",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "project",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "user",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "authority",
+                    "isMut": true,
+                    "isSigner": true
+                }
+            ],
+            "args": []
+        },
+        {
+            "name": "submitBountyForReview",
+            "accounts": [
+                {
+                    "name": "bountyApplication",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "bounty",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "project",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "user",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "authority",
+                    "isMut": true,
+                    "isSigner": true
+                }
+            ],
+            "args": [
+                {
+                    "name": "submissionLink",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "acceptBountySubmission",
+            "accounts": [
+                {
+                    "name": "bountyApplication",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "bounty",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "project",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "dao",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "user",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "authority",
+                    "isMut": true,
+                    "isSigner": true
+                },
+                {
+                    "name": "tokenMint",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "bountyVaultTokenAccount",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "userTokenAccount",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "vaultAuthority",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "tokenProgram",
+                    "isMut": false,
+                    "isSigner": false
+                }
+            ],
+            "args": []
+        }
+    ],
+    "accounts": [
+        {
+            "name": "BountyApplication",
             "type": {
-              "defined": "BountyStatus"
+                "kind": "struct",
+                "fields": [
+                    {
+                        "name": "bounty",
+                        "docs": ["Bounty being applied to"],
+                        "type": "publicKey"
+                    },
+                    {
+                        "name": "project",
+                        "docs": ["Project this bounty belongs to"],
+                        "type": "publicKey"
+                    },
+                    {
+                        "name": "user",
+                        "docs": ["User applying for this bounty"],
+                        "type": "publicKey"
+                    },
+                    {
+                        "name": "userTokenAccount",
+                        "docs": ["User Token Account"],
+                        "type": "publicKey"
+                    },
+                    {
+                        "name": "ts",
+                        "docs": ["Timestamp of applying"],
+                        "type": "i64"
+                    },
+                    {
+                        "name": "applicationStatus",
+                        "docs": ["Application status"],
+                        "type": {
+                            "defined": "BountyStatus"
+                        }
+                    },
+                    {
+                        "name": "submissionLink",
+                        "docs": ["Submission Link"],
+                        "type": "string"
+                    },
+                    {
+                        "name": "bump",
+                        "docs": ["Bump"],
+                        "type": "u8"
+                    }
+                ]
             }
-          },
-          {
-            "name": "submissionLink",
-            "docs": [
-              "Submission Link"
-            ],
-            "type": "string"
-          },
-          {
-            "name": "bump",
-            "docs": [
-              "Bump"
-            ],
-            "type": "u8"
-          }
-        ]
-      }
-    },
-    {
-      "name": "Bounty",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "project",
-            "docs": [
-              "The project initializing the Job"
-            ],
-            "type": "publicKey"
-          },
-          {
-            "name": "dao",
-            "docs": [
-              "The dao where project is shown"
-            ],
-            "type": "publicKey"
-          },
-          {
-            "name": "bountyVaultMint",
-            "docs": [
-              "Bounty Vault Mint"
-            ],
-            "type": "publicKey"
-          },
-          {
-            "name": "bountyVaultAccount",
-            "docs": [
-              "Bounty Token Account"
-            ],
-            "type": "publicKey"
-          },
-          {
-            "name": "amount",
-            "docs": [
-              "Bounty Amount"
-            ],
-            "type": "u64"
-          },
-          {
-            "name": "postTs",
-            "docs": [
-              "Timestamp when Job was posted"
-            ],
-            "type": "i64"
-          },
-          {
-            "name": "applications",
-            "docs": [
-              "Number of active applications"
-            ],
-            "type": "u64"
-          },
-          {
-            "name": "approved",
-            "docs": [
-              "Number of approved applicants"
-            ],
-            "type": "u64"
-          },
-          {
-            "name": "bountyDescription",
-            "docs": [
-              "Description of the job"
-            ],
-            "type": "string"
-          },
-          {
-            "name": "isCompleted",
-            "docs": [
-              "Bounty Completed"
-            ],
-            "type": "bool"
-          },
-          {
-            "name": "bountyWinner",
-            "docs": [
-              "Bounty Winner"
-            ],
-            "type": "publicKey"
-          },
-          {
-            "name": "bump",
-            "docs": [
-              "Bump"
-            ],
-            "type": "u8"
-          }
-        ]
-      }
-    },
-    {
-      "name": "Dao",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "name",
-            "docs": [
-              "Name of the DAO"
-            ],
-            "type": "string"
-          },
-          {
-            "name": "imgLink",
-            "docs": [
-              "Display image link"
-            ],
-            "type": "string"
-          },
-          {
-            "name": "authority",
-            "docs": [
-              "Authority of the DAO (will change to a multisig later)"
-            ],
-            "type": "publicKey"
-          },
-          {
-            "name": "daoVault",
-            "docs": [
-              "Vault Token Account of the DAO"
-            ],
-            "type": "publicKey"
-          },
-          {
-            "name": "vaultMint",
-            "docs": [
-              "Mint of the Vault Token"
-            ],
-            "type": "publicKey"
-          },
-          {
-            "name": "whitelistedProjects",
-            "docs": [
-              "Number of projects whitelisted by the DAO"
-            ],
-            "type": "u64"
-          },
-          {
-            "name": "availableJobs",
-            "docs": [
-              "Number of jobs available on the DAO's platform"
-            ],
-            "type": "u64"
-          },
-          {
-            "name": "completedHirings",
-            "docs": [
-              "Number of completed hirings through the DAO"
-            ],
-            "type": "u64"
-          },
-          {
-            "name": "availableBounties",
-            "docs": [
-              "Number of bounties available on the DAO's platform"
-            ],
-            "type": "u64"
-          },
-          {
-            "name": "completedBounties",
-            "docs": [
-              "Number of completed bounties"
-            ],
-            "type": "u64"
-          },
-          {
-            "name": "isWhitelisted",
-            "docs": [
-              "Whitelist status"
-            ],
-            "type": "bool"
-          },
-          {
-            "name": "bump",
-            "docs": [
-              "Bump"
-            ],
-            "type": "u8"
-          }
-        ]
-      }
-    },
-    {
-      "name": "JobApplication",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "job",
-            "docs": [
-              "Job being applied to"
-            ],
-            "type": "publicKey"
-          },
-          {
-            "name": "project",
-            "docs": [
-              "Project this job belongs to"
-            ],
-            "type": "publicKey"
-          },
-          {
-            "name": "user",
-            "docs": [
-              "User applying for this job"
-            ],
-            "type": "publicKey"
-          },
-          {
-            "name": "ts",
-            "docs": [
-              "Timestamp of applying"
-            ],
-            "type": "i64"
-          },
-          {
-            "name": "resume",
-            "docs": [
-              "Resume link"
-            ],
-            "type": "string"
-          },
-          {
-            "name": "applicationStatus",
-            "docs": [
-              "Application status"
-            ],
+        },
+        {
+            "name": "Bounty",
             "type": {
-              "defined": "JobStatus"
+                "kind": "struct",
+                "fields": [
+                    {
+                        "name": "project",
+                        "docs": ["The project initializing the Job"],
+                        "type": "publicKey"
+                    },
+                    {
+                        "name": "dao",
+                        "docs": ["The dao where project is shown"],
+                        "type": "publicKey"
+                    },
+                    {
+                        "name": "bountyVaultMint",
+                        "docs": ["Bounty Vault Mint"],
+                        "type": "publicKey"
+                    },
+                    {
+                        "name": "bountyVaultAccount",
+                        "docs": ["Bounty Token Account"],
+                        "type": "publicKey"
+                    },
+                    {
+                        "name": "amount",
+                        "docs": ["Bounty Amount"],
+                        "type": "u64"
+                    },
+                    {
+                        "name": "postTs",
+                        "docs": ["Timestamp when Job was posted"],
+                        "type": "i64"
+                    },
+                    {
+                        "name": "applications",
+                        "docs": ["Number of active applications"],
+                        "type": "u64"
+                    },
+                    {
+                        "name": "approved",
+                        "docs": ["Number of approved applicants"],
+                        "type": "u64"
+                    },
+                    {
+                        "name": "bountyDescription",
+                        "docs": ["Description of the job"],
+                        "type": "string"
+                    },
+                    {
+                        "name": "isCompleted",
+                        "docs": ["Bounty Completed"],
+                        "type": "bool"
+                    },
+                    {
+                        "name": "bountyWinner",
+                        "docs": ["Bounty Winner"],
+                        "type": "publicKey"
+                    },
+                    {
+                        "name": "bump",
+                        "docs": ["Bump"],
+                        "type": "u8"
+                    }
+                ]
             }
-          },
-          {
-            "name": "bump",
-            "docs": [
-              "Bump"
-            ],
-            "type": "u8"
-          }
-        ]
-      }
-    },
-    {
-      "name": "Job",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "project",
-            "docs": [
-              "The project initializing the Job"
-            ],
-            "type": "publicKey"
-          },
-          {
-            "name": "dao",
-            "docs": [
-              "The dao where project is shown"
-            ],
-            "type": "publicKey"
-          },
-          {
-            "name": "postTs",
-            "docs": [
-              "Timestamp when Job was posted"
-            ],
-            "type": "i64"
-          },
-          {
-            "name": "applications",
-            "docs": [
-              "Number of active applications"
-            ],
-            "type": "u64"
-          },
-          {
-            "name": "jobDescription",
-            "docs": [
-              "Description of the job"
-            ],
-            "type": "string"
-          },
-          {
-            "name": "hiredStatus",
-            "docs": [
-              "Hired status of job"
-            ],
-            "type": "bool"
-          },
-          {
-            "name": "hired",
-            "docs": [
-              "Hired applicant"
-            ],
-            "type": "publicKey"
-          },
-          {
-            "name": "bump",
-            "docs": [
-              "Bump"
-            ],
-            "type": "u8"
-          }
-        ]
-      }
-    },
-    {
-      "name": "ProjectWhitelist",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "dao",
-            "docs": [
-              "DAO whitelisting the project"
-            ],
-            "type": "publicKey"
-          },
-          {
-            "name": "project",
-            "docs": [
-              "Project being whitelisted"
-            ],
-            "type": "publicKey"
-          },
-          {
-            "name": "isWhitelisted",
-            "docs": [
-              "Whitelist status"
-            ],
-            "type": "bool"
-          },
-          {
-            "name": "bump",
-            "docs": [
-              "Bump"
-            ],
-            "type": "u8"
-          }
-        ]
-      }
-    },
-    {
-      "name": "Project",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "name",
-            "docs": [
-              "Name of the Project"
-            ],
-            "type": "string"
-          },
-          {
-            "name": "imgLink",
-            "docs": [
-              "Display image link"
-            ],
-            "type": "string"
-          },
-          {
-            "name": "authority",
-            "docs": [
-              "Authority of the Project"
-            ],
-            "type": "publicKey"
-          },
-          {
-            "name": "projectVault",
-            "docs": [
-              "Vault Token Account of the Project"
-            ],
-            "type": "publicKey"
-          },
-          {
-            "name": "vaultMint",
-            "docs": [
-              "Mint of the vault token"
-            ],
-            "type": "publicKey"
-          },
-          {
-            "name": "reputation",
-            "docs": [
-              "Reputation of the Project"
-            ],
-            "type": "i64"
-          },
-          {
-            "name": "totalJobs",
-            "docs": [
-              "Total Number of Jobs posted"
-            ],
-            "type": "u64"
-          },
-          {
-            "name": "availableJobs",
-            "docs": [
-              "Number of available jobs across the platform"
-            ],
-            "type": "u64"
-          },
-          {
-            "name": "completedHirings",
-            "docs": [
-              "Number of completed hirings"
-            ],
-            "type": "u64"
-          },
-          {
-            "name": "totalBounties",
-            "docs": [
-              "Total Number of Bounties posted"
-            ],
-            "type": "u64"
-          },
-          {
-            "name": "availableBounties",
-            "docs": [
-              "Number of available bounties"
-            ],
-            "type": "u64"
-          },
-          {
-            "name": "completedBounties",
-            "docs": [
-              "Number of completed bounties"
-            ],
-            "type": "u64"
-          },
-          {
-            "name": "bump",
-            "docs": [
-              "Bump"
-            ],
-            "type": "u8"
-          }
-        ]
-      }
-    },
-    {
-      "name": "User",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "displayName",
-            "docs": [
-              "Name of user"
-            ],
-            "type": "string"
-          },
-          {
-            "name": "authority",
-            "docs": [
-              "Authority of user"
-            ],
-            "type": "publicKey"
-          },
-          {
-            "name": "bio",
-            "docs": [
-              "Bio of user"
-            ],
-            "type": "string"
-          },
-          {
-            "name": "reputation",
-            "docs": [
-              "Reputation of user"
-            ],
-            "type": "i64"
-          },
-          {
-            "name": "completedBounties",
-            "docs": [
-              "Number of completed bounties"
-            ],
-            "type": "u64"
-          },
-          {
-            "name": "bump",
-            "docs": [
-              "Bump"
-            ],
-            "type": "u8"
-          }
-        ]
-      }
+        },
+        {
+            "name": "Dao",
+            "type": {
+                "kind": "struct",
+                "fields": [
+                    {
+                        "name": "name",
+                        "docs": ["Name of the DAO"],
+                        "type": "string"
+                    },
+                    {
+                        "name": "imgLink",
+                        "docs": ["Display image link"],
+                        "type": "string"
+                    },
+                    {
+                        "name": "authority",
+                        "docs": [
+                            "Authority of the DAO (will change to a multisig later)"
+                        ],
+                        "type": "publicKey"
+                    },
+                    {
+                        "name": "daoVault",
+                        "docs": ["Vault Token Account of the DAO"],
+                        "type": "publicKey"
+                    },
+                    {
+                        "name": "vaultMint",
+                        "docs": ["Mint of the Vault Token"],
+                        "type": "publicKey"
+                    },
+                    {
+                        "name": "whitelistedProjects",
+                        "docs": ["Number of projects whitelisted by the DAO"],
+                        "type": "u64"
+                    },
+                    {
+                        "name": "availableJobs",
+                        "docs": [
+                            "Number of jobs available on the DAO's platform"
+                        ],
+                        "type": "u64"
+                    },
+                    {
+                        "name": "completedHirings",
+                        "docs": ["Number of completed hirings through the DAO"],
+                        "type": "u64"
+                    },
+                    {
+                        "name": "availableBounties",
+                        "docs": [
+                            "Number of bounties available on the DAO's platform"
+                        ],
+                        "type": "u64"
+                    },
+                    {
+                        "name": "completedBounties",
+                        "docs": ["Number of completed bounties"],
+                        "type": "u64"
+                    },
+                    {
+                        "name": "isWhitelisted",
+                        "docs": ["Whitelist status"],
+                        "type": "bool"
+                    },
+                    {
+                        "name": "bump",
+                        "docs": ["Bump"],
+                        "type": "u8"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "JobApplication",
+            "type": {
+                "kind": "struct",
+                "fields": [
+                    {
+                        "name": "job",
+                        "docs": ["Job being applied to"],
+                        "type": "publicKey"
+                    },
+                    {
+                        "name": "project",
+                        "docs": ["Project this job belongs to"],
+                        "type": "publicKey"
+                    },
+                    {
+                        "name": "user",
+                        "docs": ["User applying for this job"],
+                        "type": "publicKey"
+                    },
+                    {
+                        "name": "ts",
+                        "docs": ["Timestamp of applying"],
+                        "type": "i64"
+                    },
+                    {
+                        "name": "resume",
+                        "docs": ["Resume link"],
+                        "type": "string"
+                    },
+                    {
+                        "name": "applicationStatus",
+                        "docs": ["Application status"],
+                        "type": {
+                            "defined": "JobStatus"
+                        }
+                    },
+                    {
+                        "name": "bump",
+                        "docs": ["Bump"],
+                        "type": "u8"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "Job",
+            "type": {
+                "kind": "struct",
+                "fields": [
+                    {
+                        "name": "project",
+                        "docs": ["The project initializing the Job"],
+                        "type": "publicKey"
+                    },
+                    {
+                        "name": "dao",
+                        "docs": ["The dao where project is shown"],
+                        "type": "publicKey"
+                    },
+                    {
+                        "name": "postTs",
+                        "docs": ["Timestamp when Job was posted"],
+                        "type": "i64"
+                    },
+                    {
+                        "name": "applications",
+                        "docs": ["Number of active applications"],
+                        "type": "u64"
+                    },
+                    {
+                        "name": "jobDescription",
+                        "docs": ["Description of the job"],
+                        "type": "string"
+                    },
+                    {
+                        "name": "hiredStatus",
+                        "docs": ["Hired status of job"],
+                        "type": "bool"
+                    },
+                    {
+                        "name": "hired",
+                        "docs": ["Hired applicant"],
+                        "type": "publicKey"
+                    },
+                    {
+                        "name": "bump",
+                        "docs": ["Bump"],
+                        "type": "u8"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "ProjectWhitelist",
+            "type": {
+                "kind": "struct",
+                "fields": [
+                    {
+                        "name": "dao",
+                        "docs": ["DAO whitelisting the project"],
+                        "type": "publicKey"
+                    },
+                    {
+                        "name": "project",
+                        "docs": ["Project being whitelisted"],
+                        "type": "publicKey"
+                    },
+                    {
+                        "name": "isWhitelisted",
+                        "docs": ["Whitelist status"],
+                        "type": "bool"
+                    },
+                    {
+                        "name": "bump",
+                        "docs": ["Bump"],
+                        "type": "u8"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "Project",
+            "type": {
+                "kind": "struct",
+                "fields": [
+                    {
+                        "name": "name",
+                        "docs": ["Name of the Project"],
+                        "type": "string"
+                    },
+                    {
+                        "name": "imgLink",
+                        "docs": ["Display image link"],
+                        "type": "string"
+                    },
+                    {
+                        "name": "authority",
+                        "docs": ["Authority of the Project"],
+                        "type": "publicKey"
+                    },
+                    {
+                        "name": "projectVault",
+                        "docs": ["Vault Token Account of the Project"],
+                        "type": "publicKey"
+                    },
+                    {
+                        "name": "vaultMint",
+                        "docs": ["Mint of the vault token"],
+                        "type": "publicKey"
+                    },
+                    {
+                        "name": "reputation",
+                        "docs": ["Reputation of the Project"],
+                        "type": "i64"
+                    },
+                    {
+                        "name": "totalJobs",
+                        "docs": ["Total Number of Jobs posted"],
+                        "type": "u64"
+                    },
+                    {
+                        "name": "availableJobs",
+                        "docs": [
+                            "Number of available jobs across the platform"
+                        ],
+                        "type": "u64"
+                    },
+                    {
+                        "name": "completedHirings",
+                        "docs": ["Number of completed hirings"],
+                        "type": "u64"
+                    },
+                    {
+                        "name": "totalBounties",
+                        "docs": ["Total Number of Bounties posted"],
+                        "type": "u64"
+                    },
+                    {
+                        "name": "availableBounties",
+                        "docs": ["Number of available bounties"],
+                        "type": "u64"
+                    },
+                    {
+                        "name": "completedBounties",
+                        "docs": ["Number of completed bounties"],
+                        "type": "u64"
+                    },
+                    {
+                        "name": "bump",
+                        "docs": ["Bump"],
+                        "type": "u8"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "User",
+            "type": {
+                "kind": "struct",
+                "fields": [
+                    {
+                        "name": "displayName",
+                        "docs": ["Name of user"],
+                        "type": "string"
+                    },
+                    {
+                        "name": "authority",
+                        "docs": ["Authority of user"],
+                        "type": "publicKey"
+                    },
+                    {
+                        "name": "bio",
+                        "docs": ["Bio of user"],
+                        "type": "string"
+                    },
+                    {
+                        "name": "reputation",
+                        "docs": ["Reputation of user"],
+                        "type": "i64"
+                    },
+                    {
+                        "name": "completedBounties",
+                        "docs": ["Number of completed bounties"],
+                        "type": "u64"
+                    },
+                    {
+                        "name": "jobsApplied",
+                        "docs": ["Number of jobs applied to"],
+                        "type": "u64"
+                    },
+                    {
+                        "name": "bump",
+                        "docs": ["Bump"],
+                        "type": "u8"
+                    }
+                ]
+            }
+        }
+    ],
+    "types": [
+        {
+            "name": "BountyStatus",
+            "type": {
+                "kind": "enum",
+                "variants": [
+                    {
+                        "name": "NoUpdate"
+                    },
+                    {
+                        "name": "Approved"
+                    },
+                    {
+                        "name": "Rejected"
+                    },
+                    {
+                        "name": "Accepted"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "JobStatus",
+            "type": {
+                "kind": "enum",
+                "variants": [
+                    {
+                        "name": "NoUpdate"
+                    },
+                    {
+                        "name": "Interviewing"
+                    },
+                    {
+                        "name": "Rejected"
+                    },
+                    {
+                        "name": "Hired"
+                    }
+                ]
+            }
+        }
+    ],
+    "errors": [
+        {
+            "code": 6000,
+            "name": "NameTooLong",
+            "msg": "Name Too Long"
+        },
+        {
+            "code": 6001,
+            "name": "LinkTooLong",
+            "msg": "Link Too Long"
+        },
+        {
+            "code": 6002,
+            "name": "BioTooLong",
+            "msg": "Bio Too Long"
+        },
+        {
+            "code": 6003,
+            "name": "Unauthorized",
+            "msg": "Unauthorized"
+        },
+        {
+            "code": 6004,
+            "name": "NotApproved",
+            "msg": "Not approved by project"
+        }
+    ],
+    "metadata": {
+        "address": "9Jsfy18hxoXx1qWcWDRp9X6MF87bx1YRBznm41tFTyEh"
     }
-  ],
-  "types": [
-    {
-      "name": "BountyStatus",
-      "type": {
-        "kind": "enum",
-        "variants": [
-          {
-            "name": "NoUpdate"
-          },
-          {
-            "name": "Approved"
-          },
-          {
-            "name": "Rejected"
-          },
-          {
-            "name": "Accepted"
-          }
-        ]
-      }
-    },
-    {
-      "name": "JobStatus",
-      "type": {
-        "kind": "enum",
-        "variants": [
-          {
-            "name": "NoUpdate"
-          },
-          {
-            "name": "Interviewing"
-          },
-          {
-            "name": "Rejected"
-          },
-          {
-            "name": "Hired"
-          }
-        ]
-      }
-    }
-  ],
-  "errors": [
-    {
-      "code": 6000,
-      "name": "NameTooLong",
-      "msg": "Name Too Long"
-    },
-    {
-      "code": 6001,
-      "name": "LinkTooLong",
-      "msg": "Link Too Long"
-    },
-    {
-      "code": 6002,
-      "name": "BioTooLong",
-      "msg": "Bio Too Long"
-    },
-    {
-      "code": 6003,
-      "name": "Unauthorized",
-      "msg": "Unauthorized"
-    },
-    {
-      "code": 6004,
-      "name": "NotApproved",
-      "msg": "Not approved by project"
-    }
-  ],
-  "metadata": {
-    "address": "9Jsfy18hxoXx1qWcWDRp9X6MF87bx1YRBznm41tFTyEh"
-  }
 }

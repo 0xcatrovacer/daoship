@@ -87,3 +87,141 @@
     background-color: transparent;
     color: rgb(0, 255, 174);
 }
+
+.obproject__container {
+    text-align: left;
+    width: 980px;
+    padding-top: 80px;
+    display: flex;
+    flex-direction: column;
+}
+
+.obproject__head {
+    font-family: "Open Sans";
+    font-weight: 800;
+    font-size: 40px;
+    color: rgb(0, 255, 174);
+}
+
+.obproject__subtext {
+    margin-top: 40px;
+    font-size: 24px;
+}
+
+.obproject__formcont {
+    margin-top: 70px;
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+}
+
+.obproject__implabel {
+    font-size: 17px;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.obproject__nameinp {
+    margin-top: 10px;
+    height: 30px;
+    border-radius: 8px;
+    border: 3px solid rgb(0, 255, 174);
+    background: transparent;
+    outline: none;
+    color: rgb(0, 255, 174);
+    font-size: 20px;
+    font-family: "Open Sans";
+}
+
+.obproject__button {
+    margin-top: 40px;
+    height: 40px;
+    border: 3px solid rgb(0, 255, 174);
+    font-size: 20px;
+    font-family: Ubuntu;
+    border-radius: 8px;
+    background-color: rgb(0, 255, 174);
+    cursor: pointer;
+}
+
+.obproject__button:hover {
+    background-color: transparent;
+    color: rgb(0, 255, 174);
+}
+
+.obdev__container {
+    text-align: left;
+    width: 980px;
+    padding-top: 80px;
+    display: flex;
+    flex-direction: column;
+}
+
+.obdev__head {
+    font-family: "Open Sans";
+    font-weight: 800;
+    font-size: 40px;
+    color: rgb(0, 255, 174);
+}
+
+.obdev__subtext {
+    margin-top: 40px;
+    font-size: 24px;
+}
+
+.obdev__formcont {
+    margin-top: 70px;
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+}
+
+.obdev__namelabel {
+    font-size: 17px;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.obdev__biolabel {
+    margin-top: 20px;
+    font-size: 17px;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.obdev__nameinp {
+    margin-top: 10px;
+    height: 30px;
+    border-radius: 8px;
+    border: 3px solid rgb(0, 255, 174);
+    background: transparent;
+    outline: none;
+    color: rgb(0, 255, 174);
+    font-size: 20px;
+    font-family: "Open Sans";
+}
+
+.obdev__bioinp {
+    margin-top: 10px;
+    height: 30px;
+    border-radius: 8px;
+    border: 3px solid rgb(0, 255, 174);
+    background: transparent;
+    outline: none;
+    color: rgb(0, 255, 174);
+    font-size: 20px;
+    font-family: "Open Sans";
+}
+
+.obdev__button {
+    margin-top: 40px;
+    height: 50px;
+    border: 3px solid rgb(0, 255, 174);
+    font-size: 20px;
+    font-family: Ubuntu;
+    border-radius: 8px;
+    background-color: rgb(0, 255, 174);
+    cursor: pointer;
+}
+
+.obdev__button:hover {
+    background-color: transparent;
+    color: rgb(0, 255, 174);
+}

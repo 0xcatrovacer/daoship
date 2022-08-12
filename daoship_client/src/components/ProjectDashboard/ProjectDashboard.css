@@ -1,0 +1,123 @@
+.projdash__container {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    width: 980px;
+    padding: 70px 0px;
+}
+
+.projdash__top {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.projdash__name {
+    font-family: "Open Sans";
+    font-weight: 800;
+    font-size: 40px;
+    color: rgb(0, 255, 174);
+}
+
+.projdash__reputation {
+    font-family: "Open Sans";
+    font-size: 30px;
+}
+
+.projrep {
+    font-weight: 800;
+    font-size: 40px;
+    color: rgb(157, 0, 255);
+}
+
+.projdash__metricscont {
+    background-color: rgb(55, 55, 83);
+    padding: 30px 50px;
+    border-radius: 14px;
+    margin-top: 50px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.projmetrics__row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.pd_metricsleft_no {
+    font-size: 50px;
+    text-align: left;
+    color: rgb(0, 255, 174);
+}
+
+.pd_metricsright_no {
+    font-size: 50px;
+    text-align: right;
+    color: rgb(0, 255, 174);
+}
+
+.pd_metrics_text {
+    font-size: 25px;
+}
+
+.projdash__createlisting {
+    margin-top: 40px;
+    padding: 50px 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: rgb(55, 55, 83);
+    border-radius: 14px;
+}
+
+.listing_buttons {
+    width: 300px;
+    height: 45px;
+    font-size: 18px;
+    border-radius: 81px;
+    font-family: Ubuntu;
+    border: 3px solid rgb(0, 255, 174);
+    background-color: rgb(0, 255, 174);
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.listing_buttons:hover {
+    background-color: transparent;
+    color: rgb(0, 255, 174);
+}
+
+.projdash__applywhitelist {
+    margin-top: 40px;
+    padding: 50px 50px;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(55, 55, 83);
+    border-radius: 14px;
+}
+
+.projdash__awtext {
+    font-size: 20px;
+    line-height: 30px;
+}
+
+.projdash__awbutton {
+    margin-top: 30px;
+    font-size: 20px;
+    width: 230px;
+    height: 45px;
+    background-color: rgb(0, 255, 174);
+    border-radius: 81px;
+    border: 3px solid rgb(0, 255, 174);
+    cursor: pointer;
+    font-family: Ubuntu;
+    font-weight: 600;
+}
+
+.projdash__awbutton:hover {
+    background-color: transparent;
+    color: rgb(0, 255, 174);
+}

@@ -296,8 +296,10 @@ describe("daoship_programs", () => {
         const whitelisted = await program.account.projectWhitelist.fetch(
             projectWhitelist
         );
+        const whitelister = await program.account.dao.fetch(dao);
 
         assert.strictEqual(whitelisted.isWhitelisted, true);
+        assert.strictEqual(whitelister.whitelistedProjects.toNumber(), 1);
     });
 
     it("Can initialize job listing", async () => {

@@ -38,6 +38,7 @@ pub fn handler(ctx: Context<WhitelistProject>) -> Result<()> {
     let whitelist = &mut ctx.accounts.project_whitelist;
 
     whitelist.is_whitelisted = true;
+    ctx.accounts.dao.whitelisted_projects += 1;
 
     Ok(())
 }

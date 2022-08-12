@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { AnchorProvider, Program, utils, web3 } from "@project-serum/anchor";
+import {
+    Address,
+    AnchorProvider,
+    Program,
+    utils,
+    web3,
+} from "@project-serum/anchor";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { PublicKey, Transaction } from "@solana/web3.js";
 import {
@@ -20,50 +26,61 @@ function OnboardDao({ setDisplayType, program, provider }: OnboardOptionProps) {
     const { publicKey } = useWallet();
 
     const handleOnboardDAO = async () => {
-        const usdcMint = new PublicKey(
-            "Gh9ZwEmdLJ8DscKNTkTqPbNwLNNBjuSzaG9Vp2KGtKJr"
-        );
-
-        const transaction = new Transaction();
-
-        const userTokenAccount = await getAssociatedTokenAddress(
-            usdcMint,
-            publicKey as PublicKey
-        );
-
         try {
-            await getAccount(provider.connection, userTokenAccount);
-        } catch (e) {
-            transaction.add(
-                createAssociatedTokenAccountInstruction(
-                    publicKey as PublicKey,
-                    userTokenAccount,
-                    publicKey as PublicKey,
-                    usdcMint
-                )
+            const usdcMint = new PublicKey(
+                "Gh9ZwEmdLJ8DscKNTkTqPbNwLNNBjuSzaG9Vp2KGtKJr"
             );
+
+            const transaction = new Transaction();
+
+            const userTokenAccount = await getAssociatedTokenAddress(
+                usdcMint,
+                publicKey as PublicKey
+            );
+
+            try {
+                await getAccount(provider.connection, userTokenAccount);
+            } catch (e) {
+                transaction.add(
+                    createAssociatedTokenAccountInstruction(
+                        publicKey as PublicKey,
+                        userTokenAccount,
+                        publicKey as PublicKey,
+                        usdcMint
+                    )
+                );
+            }
+
+            await provider.sendAndConfirm(transaction);
+
+            const [daoPDA, _daoBump] = await web3.PublicKey.findProgramAddress(
+                [
+                    utils.bytes.utf8.encode("dao"),
+                    publicKey?.toBuffer() as Buffer,
+                ],
+                program.programId
+            );
+
+            await program.methods
+                .initDao(daoName, "")
+                .accounts({
+                    dao: daoPDA,
+                    daoVaultMint: usdcMint,
+                    daoVaultTokenAccount: userTokenAccount,
+                    authority: publicKey as PublicKey,
+                    systemProgram: web3.SystemProgram.programId,
+                })
+                .signers([])
+                .rpc();
+
+            const createdDAO = program.account.dao.fetch(daoPDA as Address);
+
+            console.log(createdDAO);
+
+            setDisplayType("is_dao");
+        } catch (e) {
+            throw new Error(`Error creating DAO: ${e}`);
         }
-
-        await provider.sendAndConfirm(transaction);
-
-        const [daoPDA, _daoBump] = publicKey
-            ? await web3.PublicKey.findProgramAddress(
-                  [utils.bytes.utf8.encode("dao"), publicKey.toBuffer()],
-                  program.programId
-              )
-            : [];
-
-        await program.methods
-            .initDao(daoName, "")
-            .accounts({
-                dao: daoPDA,
-                daoVaultMint: usdcMint,
-                daoVaultTokenAccount: userTokenAccount,
-                authority: publicKey as PublicKey,
-                systemProgram: web3.SystemProgram.programId,
-            })
-            .signers([])
-            .rpc();
     };
 
     return (
@@ -81,6 +98,7 @@ function OnboardDao({ setDisplayType, program, provider }: OnboardOptionProps) {
                     className="obdao__nameinp"
                     value={daoName}
                     onChange={(e) => setDaoName(e.target.value)}
+                    required
                 />
                 <button className="obdao__button" onClick={handleOnboardDAO}>
                     Onboard

@@ -19,6 +19,9 @@ pub struct User {
     /// Number of completed bounties
     pub completed_bounties: u64,
 
+    /// Number of jobs applied to
+    pub jobs_applied: u64,
+
     /// Bump
     pub bump: u8,
 }
@@ -26,9 +29,10 @@ pub struct User {
 impl User {
     pub const LEN: usize = DISCRIMINATOR_LENGTH  // 8-byte discriminator
         + NAME_LENGTH                            // Name
-        + PUBKEY_LENGTH                          // Auhtority
+        + PUBKEY_LENGTH                          // Authority
         + BIO_LENGTH                             // Bio of user
         + DATA_LENGTH                            // Reputation
         + DATA_LENGTH                            // Number of completed bounties
+        + DATA_LENGTH                            // Numver of job applications
         + BOOL_LENGTH; // PDA Bump
 }
