@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { Address, AnchorProvider, Program, utils, web3 } from "@project-serum/anchor";
+import {
+    Address,
+    AnchorProvider,
+    Program,
+    utils,
+    web3,
+} from "@project-serum/anchor";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { PublicKey, Transaction } from "@solana/web3.js";
 import {
@@ -21,7 +27,6 @@ function OnboardDao({ setDisplayType, program, provider }: OnboardOptionProps) {
 
     const handleOnboardDAO = async () => {
         try {
-            
             const usdcMint = new PublicKey(
                 "Gh9ZwEmdLJ8DscKNTkTqPbNwLNNBjuSzaG9Vp2KGtKJr"
             );
@@ -48,12 +53,13 @@ function OnboardDao({ setDisplayType, program, provider }: OnboardOptionProps) {
 
             await provider.sendAndConfirm(transaction);
 
-            const [daoPDA, _daoBump] = publicKey
-                ? await web3.PublicKey.findProgramAddress(
-                    [utils.bytes.utf8.encode("dao"), publicKey.toBuffer()],
-                    program.programId
-                )
-                : [];
+            const [daoPDA, _daoBump] = await web3.PublicKey.findProgramAddress(
+                [
+                    utils.bytes.utf8.encode("dao"),
+                    publicKey?.toBuffer() as Buffer,
+                ],
+                program.programId
+            );
 
             await program.methods
                 .initDao(daoName, "")
@@ -70,11 +76,11 @@ function OnboardDao({ setDisplayType, program, provider }: OnboardOptionProps) {
             const createdDAO = program.account.dao.fetch(daoPDA as Address);
 
             console.log(createdDAO);
+
+            setDisplayType("is_dao");
+        } catch (e) {
+            throw new Error(`Error creating DAO: ${e}`);
         }
-        catch (e) {
-            throw new Error(`Error creating DAO: ${e}`)
-        }
-    
     };
 
     return (
