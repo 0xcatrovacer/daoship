@@ -4,15 +4,10 @@ import "./ProjectDashboard.css";
 
 type ProjectDashboardType = {
     payload: Record<string, any>;
-    program: Program;
-    provider: AnchorProvider;
+    setDisplayType: (displayType: string) => void;
 };
 
-function ProjectDashboard({
-    payload,
-    program,
-    provider,
-}: ProjectDashboardType) {
+function ProjectDashboard({ payload, setDisplayType }: ProjectDashboardType) {
     return (
         <div className="projdash__container">
             <div className="projdash__top">
@@ -71,7 +66,12 @@ function ProjectDashboard({
                     Apply to DAOs to Get Whitelisted and Get Access <br />
                     to Solana developers for Jobs and Bounties
                 </div>
-                <button className="projdash__awbutton">Apply!</button>
+                <button
+                    className="projdash__awbutton"
+                    onClick={() => setDisplayType("is_whitelistapply")}
+                >
+                    Apply!
+                </button>
             </div>
         </div>
     );

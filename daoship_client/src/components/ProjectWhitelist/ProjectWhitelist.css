@@ -1,0 +1,109 @@
+.projectwl__cont {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    width: 980px;
+    padding: 70px 0px;
+}
+
+/* TODO: Styles for Whitelisted Container; */
+
+.projectwl__notwlcont {
+    background-color: rgb(55, 55, 83);
+    padding: 30px 50px;
+    border-radius: 14px;
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.projectnotwlted__head {
+    font-family: "Open Sans";
+    font-weight: 800;
+    font-size: 23px;
+    color: rgb(0, 255, 174);
+}
+
+.projectnotwlted__daocont {
+    margin-top: 20px;
+}
+
+.projectnotwlted__dao {
+    margin-top: 10px;
+    background-color: rgb(32, 32, 42);
+    padding: 30px 20px;
+    border-radius: 10px;
+}
+
+.notwlteddao_name {
+    font-size: 20px;
+}
+
+.notwlteddao_pubkey {
+    margin-left: 30px;
+    color: rgba(255, 255, 255, 0.474);
+}
+
+.projectwl__notapcont {
+    background-color: rgb(55, 55, 83);
+    padding: 30px 50px;
+    border-radius: 14px;
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.projectnotap__head {
+    font-family: "Open Sans";
+    font-weight: 800;
+    font-size: 23px;
+    color: rgb(0, 255, 174);
+}
+
+.projectnotap__daocont {
+    margin-top: 20px;
+}
+
+.projectnotap__dao {
+    margin-top: 10px;
+    background-color: rgb(32, 32, 42);
+    padding: 30px 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.projectnotap__daodeets {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.notapdao_name {
+    font-size: 20px;
+}
+
+.notapdao_pubkey {
+    margin-left: 30px;
+    color: rgba(255, 255, 255, 0.474);
+}
+
+.projectnotap__applybtn {
+    font-size: 16px;
+    width: 200px;
+    height: 40px;
+    background-color: rgb(0, 255, 174);
+    border-radius: 81px;
+    border: 3px solid rgb(0, 255, 174);
+    cursor: pointer;
+    font-family: Ubuntu;
+    font-weight: 600;
+}
+
+.projectnotap__applybtn:hover {
+    background-color: transparent;
+    color: rgb(0, 255, 174);
+}
