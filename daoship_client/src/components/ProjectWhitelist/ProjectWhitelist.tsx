@@ -76,33 +76,32 @@ function ProjectWhitelist({
         ]);
 
         daos.map((dao) => {
-            let flag: number = 0;
+            let flag: string = "not_applied";
             projectWhitelists.map((whitelist) => {
                 if (
                     (whitelist.account.dao as any).toBase58() ===
                     dao.publicKey.toBase58()
                 ) {
-                    flag = 1;
+                    flag = "not_whitelisted";
+                    if (whitelist.account.isWhitelisted) {
+                        flag = "is_whitelisted";
+                    }
                 }
             });
-            flag == 0 ? notApplied.push(dao) : applied.push(dao);
+            flag === "is_whitelisted"
+                ? whitelisted.push(dao)
+                : flag === "not_whitelisted"
+                ? notWhitelisted.push(dao)
+                : notApplied.push(dao);
         });
 
         console.log("notApplied", notApplied);
         setNotApplied(notApplied);
 
-        console.log("applied", applied);
-
-        applied.map((dao: any) => {
-            dao.account.isWhitelisted
-                ? whitelisted.push(dao)
-                : notWhitelisted.push(dao);
-        });
-
         console.log("whitelisted", whitelisted);
-        console.log("notWhitelisted", notWhitelisted);
-
         setWhitelistedBy(whitelisted);
+
+        console.log("notWhitelisted", notWhitelisted);
         setNotWhitelistedBy(notWhitelisted);
     };
 
@@ -115,12 +114,19 @@ function ProjectWhitelist({
             {whitelistedBy.length !== 0 && (
                 <div className="projectwl__wltedcont">
                     <div className="projectwlted__head">
-                        DAOs That have Whitelisted You
+                        Already Whitelisted
                     </div>
                     <div className="projectwlted__daocont">
                         {whitelistedBy.map((dao: any) => (
                             <div className="projectwlted__dao">
-                                {dao.account.name}
+                                <span className="wlteddao_name">
+                                    {dao.account.name}
+                                </span>
+                                <span className="wlteddao_pubkey">
+                                    {getTruncatedPubkey(
+                                        dao.publicKey.toBase58()
+                                    )}
+                                </span>
                             </div>
                         ))}
                     </div>
@@ -129,7 +135,7 @@ function ProjectWhitelist({
             {notWhitelistedBy.length !== 0 && (
                 <div className="projectwl__notwlcont">
                     <div className="projectnotwlted__head">
-                        Waiting for Whitelisted Approval
+                        Waiting for Whitelist Approval
                     </div>
                     <div className="projectnotwlted__daocont">
                         {notWhitelistedBy.map((dao: any) => (

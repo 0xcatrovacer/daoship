@@ -1,14 +1,11 @@
-import { AnchorProvider, Program } from "@project-serum/anchor";
-
 import "./DaoDashboard.css";
 
 type DaoDashboardType = {
+    setDisplayType: (displayType: string) => void;
     payload: Record<string, any>;
-    program: Program;
-    provider: AnchorProvider;
 };
 
-function DaoDashboard({ payload, program, provider }: DaoDashboardType) {
+function DaoDashboard({ setDisplayType, payload }: DaoDashboardType) {
     return (
         <div className="daodash__container">
             <div className="daodash__daoname">{payload.name}</div>
@@ -16,7 +13,12 @@ function DaoDashboard({ payload, program, provider }: DaoDashboardType) {
                 <div className="dd_wl_text">
                     Check if projects have applied for whitelist
                 </div>
-                <button className="dd_wl_button">Whitelist Page</button>
+                <button
+                    className="dd_wl_button"
+                    onClick={() => setDisplayType("whitelist_applications")}
+                >
+                    Whitelist Page
+                </button>
             </div>
             <div className="daodash__metricscont">
                 <div className="daometrics__top">

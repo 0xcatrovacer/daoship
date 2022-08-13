@@ -1,0 +1,66 @@
+.whitelistapp__cont {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    width: 980px;
+    padding: 70px 0px;
+}
+
+.whitelistapp__head {
+    font-family: "Open Sans";
+    font-weight: 800;
+    font-size: 23px;
+    color: rgb(0, 255, 174);
+}
+
+.whitelistapp__projectcont {
+    background-color: rgb(55, 55, 83);
+    padding: 30px 50px;
+    border-radius: 14px;
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.whitelistapp__project {
+    margin-top: 10px;
+    background-color: rgb(32, 32, 42);
+    padding: 30px 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.whitelistapp__projdeets {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.whitelistapp__projname {
+    font-size: 20px;
+}
+
+.whitelistapp__projpubkey {
+    margin-left: 30px;
+    color: rgba(255, 255, 255, 0.474);
+}
+
+.whitelistapp__wlbutton {
+    font-size: 16px;
+    width: 200px;
+    height: 40px;
+    background-color: rgb(0, 255, 174);
+    border-radius: 81px;
+    border: 3px solid rgb(0, 255, 174);
+    cursor: pointer;
+    font-family: Ubuntu;
+    font-weight: 600;
+}
+
+.whitelistapp__wlbutton:hover {
+    background-color: transparent;
+    color: rgb(0, 255, 174);
+}

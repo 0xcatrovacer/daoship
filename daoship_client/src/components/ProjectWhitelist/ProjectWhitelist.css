@@ -8,6 +8,43 @@
 
 /* TODO: Styles for Whitelisted Container; */
 
+.projectwl__wltedcont {
+    background-color: rgb(55, 55, 83);
+    padding: 30px 50px;
+    border-radius: 14px;
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.projectwlted__head {
+    font-family: "Open Sans";
+    font-weight: 800;
+    font-size: 23px;
+    color: rgb(0, 255, 174);
+}
+
+.projectwlted__daocont {
+    margin-top: 20px;
+}
+
+.projectwlted__dao {
+    margin-top: 10px;
+    background-color: rgb(32, 32, 42);
+    padding: 30px 20px;
+    border-radius: 10px;
+}
+
+.wlteddao_name {
+    font-size: 20px;
+}
+
+.wlteddao_pubkey {
+    margin-left: 30px;
+    color: rgba(255, 255, 255, 0.474);
+}
+
 .projectwl__notwlcont {
     background-color: rgb(55, 55, 83);
     padding: 30px 50px;
