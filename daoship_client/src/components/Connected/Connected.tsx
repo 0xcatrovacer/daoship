@@ -12,6 +12,7 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import DaoDashboard from "../DaoDashboard/DaoDashboard";
 import ProjectDashboard from "../ProjectDashboard/ProjectDashboard";
 import UserDashboard from "../UserDashboard/UserDashboard";
+import ProjectWhitelist from "../ProjectWhitelist/ProjectWhitelist";
 
 type ConnectedProps = {
     program: Program;
@@ -21,6 +22,7 @@ type ConnectedProps = {
 function Connected({ program, provider }: ConnectedProps) {
     const [displayType, setDisplayType] = useState("");
     const [payload, setPayload] = useState<any>();
+    const [projectPda, setProjectPda] = useState<any>();
 
     const wallet = useWallet();
 
@@ -51,6 +53,8 @@ function Connected({ program, provider }: ConnectedProps) {
                             ],
                             program.programId
                         );
+
+                    setProjectPda(projectPDA);
 
                     const project = await program.account.project.fetch(
                         projectPDA
@@ -111,8 +115,7 @@ function Connected({ program, provider }: ConnectedProps) {
             {displayType === "is_project" && (
                 <ProjectDashboard
                     payload={payload}
-                    program={program}
-                    provider={provider}
+                    setDisplayType={setDisplayType}
                 />
             )}
             {displayType === "is_user" && (
@@ -120,6 +123,14 @@ function Connected({ program, provider }: ConnectedProps) {
                     payload={payload}
                     program={program}
                     provider={provider}
+                />
+            )}
+            {displayType === "is_whitelistapply" && (
+                <ProjectWhitelist
+                    projectPda={projectPda}
+                    program={program}
+                    provider={provider}
+                    setDisplayType={setDisplayType}
                 />
             )}
         </div>
