@@ -7,6 +7,7 @@ import {
     getAssociatedTokenAddress,
 } from "@solana/spl-token";
 import { useWallet } from "@solana/wallet-adapter-react";
+import { USDC_MINT } from "../../constants";
 
 type OnboardOptionProps = {
     setDisplayType: (displayType: string) => void;
@@ -25,9 +26,7 @@ function OnboardProject({
 
     const handleOnboardProject = async () => {
         try {
-            const usdcMint = new PublicKey(
-                "Gh9ZwEmdLJ8DscKNTkTqPbNwLNNBjuSzaG9Vp2KGtKJr"
-            );
+            const usdcMint = new PublicKey(USDC_MINT);
 
             const transaction = new Transaction();
 

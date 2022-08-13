@@ -13,6 +13,8 @@ import DaoDashboard from "../DaoDashboard/DaoDashboard";
 import ProjectDashboard from "../ProjectDashboard/ProjectDashboard";
 import UserDashboard from "../UserDashboard/UserDashboard";
 import ProjectWhitelist from "../ProjectWhitelist/ProjectWhitelist";
+import DaoWhitelistApplications from "../DaoWhitelistApplications/DaoWhitelistApplications";
+import ProjectBounty from "../ProjectBounty/ProjectBounty";
 
 type ConnectedProps = {
     program: Program;
@@ -23,6 +25,7 @@ function Connected({ program, provider }: ConnectedProps) {
     const [displayType, setDisplayType] = useState("");
     const [payload, setPayload] = useState<any>();
     const [projectPda, setProjectPda] = useState<any>();
+    const [daoPda, setDaoPda] = useState<any>();
 
     const wallet = useWallet();
 
@@ -42,6 +45,7 @@ function Connected({ program, provider }: ConnectedProps) {
                 const dao = await program.account.dao.fetch(daoPDA);
                 console.log(dao);
                 setPayload(dao);
+                setDaoPda(daoPDA);
                 setDisplayType("is_dao");
             } catch (e) {
                 try {
@@ -107,22 +111,17 @@ function Connected({ program, provider }: ConnectedProps) {
             )}
             {displayType === "is_dao" && (
                 <DaoDashboard
+                    setDisplayType={setDisplayType}
                     payload={payload}
-                    program={program}
-                    provider={provider}
                 />
+            )}
+            {displayType === "whitelist_applications" && (
+                <DaoWhitelistApplications program={program} daoPda={daoPda} />
             )}
             {displayType === "is_project" && (
                 <ProjectDashboard
                     payload={payload}
                     setDisplayType={setDisplayType}
-                />
-            )}
-            {displayType === "is_user" && (
-                <UserDashboard
-                    payload={payload}
-                    program={program}
-                    provider={provider}
                 />
             )}
             {displayType === "is_whitelistapply" && (
@@ -131,6 +130,21 @@ function Connected({ program, provider }: ConnectedProps) {
                     program={program}
                     provider={provider}
                     setDisplayType={setDisplayType}
+                />
+            )}
+            {displayType === "create_bounty" && (
+                <ProjectBounty
+                    projectPda={projectPda}
+                    payload={payload}
+                    program={program}
+                    setDisplayType={setDisplayType}
+                />
+            )}
+            {displayType === "is_user" && (
+                <UserDashboard
+                    payload={payload}
+                    program={program}
+                    provider={provider}
                 />
             )}
         </div>

@@ -85,6 +85,17 @@
     font-weight: 600;
 }
 
+.projdash__bountylisting {
+    width: 300px;
+    height: 45px;
+    font-size: 18px;
+    border-radius: 81px;
+    font-family: Ubuntu;
+    border: 3px solid rgb(97, 97, 97);
+    cursor: not-allowed;
+    font-weight: 600;
+}
+
 .listing_buttons:hover {
     background-color: transparent;
     color: rgb(0, 255, 174);
