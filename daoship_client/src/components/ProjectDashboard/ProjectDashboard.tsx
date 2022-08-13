@@ -54,11 +54,16 @@ function ProjectDashboard({ payload, setDisplayType }: ProjectDashboardType) {
                 </div>
             </div>
             <div className="projdash__createlisting">
-                <button className="projdash__joblisting listing_buttons">
-                    Create a Job Listing
+                <button
+                    className="projdash__joblisting listing_buttons"
+                    onClick={() => {
+                        setDisplayType("create_bounty");
+                    }}
+                >
+                    Bounty Listings
                 </button>
-                <button className="projdash__bountylisting listing_buttons">
-                    Create a Bounty Listing
+                <button className="projdash__bountylisting" disabled>
+                    Job Listings (Coming Soon)
                 </button>
             </div>
             <div className="projdash__applywhitelist">

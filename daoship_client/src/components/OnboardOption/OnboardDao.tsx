@@ -13,6 +13,7 @@ import {
     getAccount,
     getAssociatedTokenAddress,
 } from "@solana/spl-token";
+import { USDC_MINT } from "../../constants";
 
 type OnboardOptionProps = {
     setDisplayType: (displayType: string) => void;
@@ -27,9 +28,7 @@ function OnboardDao({ setDisplayType, program, provider }: OnboardOptionProps) {
 
     const handleOnboardDAO = async () => {
         try {
-            const usdcMint = new PublicKey(
-                "Gh9ZwEmdLJ8DscKNTkTqPbNwLNNBjuSzaG9Vp2KGtKJr"
-            );
+            const usdcMint = new PublicKey(USDC_MINT);
 
             const transaction = new Transaction();
 

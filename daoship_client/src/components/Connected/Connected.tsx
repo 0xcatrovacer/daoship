@@ -14,6 +14,7 @@ import ProjectDashboard from "../ProjectDashboard/ProjectDashboard";
 import UserDashboard from "../UserDashboard/UserDashboard";
 import ProjectWhitelist from "../ProjectWhitelist/ProjectWhitelist";
 import DaoWhitelistApplications from "../DaoWhitelistApplications/DaoWhitelistApplications";
+import ProjectBounty from "../ProjectBounty/ProjectBounty";
 
 type ConnectedProps = {
     program: Program;
@@ -128,6 +129,14 @@ function Connected({ program, provider }: ConnectedProps) {
                     projectPda={projectPda}
                     program={program}
                     provider={provider}
+                    setDisplayType={setDisplayType}
+                />
+            )}
+            {displayType === "create_bounty" && (
+                <ProjectBounty
+                    projectPda={projectPda}
+                    payload={payload}
+                    program={program}
                     setDisplayType={setDisplayType}
                 />
             )}
