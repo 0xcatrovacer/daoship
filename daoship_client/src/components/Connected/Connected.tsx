@@ -15,6 +15,7 @@ import UserDashboard from "../UserDashboard/UserDashboard";
 import ProjectWhitelist from "../ProjectWhitelist/ProjectWhitelist";
 import DaoWhitelistApplications from "../DaoWhitelistApplications/DaoWhitelistApplications";
 import ProjectBounty from "../ProjectBounty/ProjectBounty";
+import DevBountyDash from "../DevBountyDash/DevBountyDash";
 
 type ConnectedProps = {
     program: Program;
@@ -24,8 +25,9 @@ type ConnectedProps = {
 function Connected({ program, provider }: ConnectedProps) {
     const [displayType, setDisplayType] = useState("");
     const [payload, setPayload] = useState<any>();
-    const [projectPda, setProjectPda] = useState<any>();
     const [daoPda, setDaoPda] = useState<any>();
+    const [projectPda, setProjectPda] = useState<any>();
+    const [devPda, setDevPda] = useState<any>();
 
     const wallet = useWallet();
 
@@ -80,6 +82,7 @@ function Connected({ program, provider }: ConnectedProps) {
 
                         const user = await program.account.user.fetch(userPDA);
 
+                        setDevPda(userPDA);
                         setPayload(user);
                         console.log(user);
                         setDisplayType("is_user");
@@ -143,8 +146,15 @@ function Connected({ program, provider }: ConnectedProps) {
             {displayType === "is_user" && (
                 <UserDashboard
                     payload={payload}
+                    setDisplayType={setDisplayType}
+                />
+            )}
+            {displayType === "dev_bounty" && (
+                <DevBountyDash
                     program={program}
                     provider={provider}
+                    devPda={devPda}
+                    setDisplayType={setDisplayType}
                 />
             )}
         </div>

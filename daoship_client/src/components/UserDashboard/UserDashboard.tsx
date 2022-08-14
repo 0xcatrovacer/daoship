@@ -1,13 +1,11 @@
-import { AnchorProvider, Program } from "@project-serum/anchor";
 import "./UserDashboard.css";
 
 type UserDashboardType = {
     payload: Record<string, any>;
-    program: Program;
-    provider: AnchorProvider;
+    setDisplayType: (displayType: string) => void;
 };
 
-function UserDashboard({ payload, program, provider }: UserDashboardType) {
+function UserDashboard({ payload, setDisplayType }: UserDashboardType) {
     return (
         <div className="devdash__container">
             <div className="devdash__top">
@@ -41,8 +39,15 @@ function UserDashboard({ payload, program, provider }: UserDashboardType) {
                 </div>
             </div>
             <div className="dev__buttons">
-                <button className="devdb_button">Go To Bounty Dashboard</button>
-                <button className="devdb_button">Go To Job Dashboard</button>
+                <button
+                    className="devdb_button"
+                    onClick={() => setDisplayType("dev_bounty")}
+                >
+                    Go To Bounty Dashboard
+                </button>
+                <button className="devdb_jobbutton" disabled>
+                    Job Dashboard (Coming Soon)
+                </button>
             </div>
         </div>
     );

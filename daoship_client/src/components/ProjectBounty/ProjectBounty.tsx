@@ -207,9 +207,9 @@ function ProjectBounty({
                                 name="dao"
                                 className="pbform__daoinp"
                                 defaultValue={whitelist[0].daoPubkey.toBase58()}
-                                onChange={(e) => {
-                                    setDaoPubkey(e.target.value);
-                                }}
+                                // onChange={(e) => {
+                                //     setDaoPubkey(e.target.value);
+                                // }}
                                 required
                             >
                                 {whitelist &&
