@@ -104,6 +104,7 @@ pub fn handler(ctx: Context<InitBountyListing>, amount: u64, description: String
 
     bounty.project = project.key();
     bounty.dao = dao.key();
+    bounty.id = project.total_bounties;
     bounty.bounty_vault_mint = ctx.accounts.bounty_vault_mint.key();
     bounty.bounty_vault_account = ctx.accounts.bounty_vault_token_account.key();
     bounty.amount = amount;

@@ -10,6 +10,9 @@ pub struct Bounty {
     /// The dao where project is shown
     pub dao: Pubkey,
 
+    /// Id of bounty
+    pub id: u64,
+
     /// Bounty Vault Mint
     pub bounty_vault_mint: Pubkey,
 
@@ -45,6 +48,7 @@ impl Bounty {
     pub const LEN: usize = DISCRIMINATOR_LENGTH // 8-byte discriminator
         + PUBKEY_LENGTH                         // Project Pubkey
         + PUBKEY_LENGTH                         // DAO Pubkey
+        + DATA_LENGTH                           // Bounty Id
         + PUBKEY_LENGTH                         // Mint of Bounty Vault Token
         + PUBKEY_LENGTH                         // Vault Account for Bounty
         + DATA_LENGTH                           // Amount For Bounty
