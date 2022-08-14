@@ -149,3 +149,53 @@
     background-color: transparent;
     color: rgb(0, 255, 174);
 }
+
+.bounties__cont {
+    margin-top: 20px;
+}
+
+.bounties__bounty {
+    margin-top: 10px;
+    background-color: rgb(32, 32, 42);
+    padding: 30px 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.bounties__bountyleft {
+    display: flex;
+    flex-direction: column;
+}
+
+.bounties__bountyhead {
+    font-size: 20px;
+    color: rgb(0, 255, 174);
+}
+
+.bounties__bountydao {
+    margin-top: 10px;
+    color: rgba(255, 255, 255, 0.45);
+}
+
+.bounties__bountyamount {
+    color: rgb(198, 106, 255);
+}
+
+.bounties__managebtn {
+    font-size: 16px;
+    width: 200px;
+    height: 40px;
+    background-color: rgb(0, 255, 174);
+    border-radius: 81px;
+    border: 3px solid rgb(0, 255, 174);
+    cursor: pointer;
+    font-family: Ubuntu;
+    font-weight: 600;
+}
+
+.bounties__managebtn:hover {
+    background-color: transparent;
+    color: rgb(0, 255, 174);
+}

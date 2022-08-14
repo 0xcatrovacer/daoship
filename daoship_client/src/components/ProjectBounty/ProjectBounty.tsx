@@ -1,4 +1,4 @@
-import { BN, Program, utils, web3 } from "@project-serum/anchor";
+import { Address, BN, Program, utils, web3 } from "@project-serum/anchor";
 import { getAssociatedTokenAddress, TOKEN_PROGRAM_ID } from "@solana/spl-token";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { PublicKey } from "@solana/web3.js";
@@ -26,6 +26,7 @@ function ProjectBounty({
     const [bountyDesc, setBountyDesc] = useState<string>();
     const [bountyAmount, setBountyAmount] = useState<any>();
     const [projectWhitelist, setProjectWhitelist] = useState<string>();
+    const [bounties, setBounties] = useState<any>();
 
     const { publicKey } = useWallet();
 
@@ -120,10 +121,32 @@ function ProjectBounty({
             }
         });
 
+        const createdBounties = await program.account.bounty.all([
+            {
+                memcmp: {
+                    offset: 8,
+                    bytes: projectPda.toBase58(),
+                },
+            },
+        ]);
+
+        console.log("createdBounties", createdBounties);
+
+        const addBounties: any = [];
+
+        createdBounties.map(async (bounty) => {
+            const dao: any = await program.account.dao.fetch(
+                bounty.account.dao as Address
+            );
+
+            addBounties.push({ bounty, daoName: dao.name });
+        });
+
         setTimeout(() => {
             console.log("whitelistsArray", whitelistsArray);
             setDaoPubkey(whitelistsArray[0].daoPubkey.toBase58());
             setProjectWhitelist(whitelistsArray[0].projectWhitelist.toBase58());
+            setBounties(addBounties);
         }, 200);
     };
 
@@ -210,6 +233,33 @@ function ProjectBounty({
             </div>
             <div className="projectbounty__createdbountiescont">
                 <div className="projbounty__cbhead">Created Bounties</div>
+                {bounties && (
+                    <div className="bounties__cont">
+                        {bounties.map((bounty: any) => (
+                            <div className="bounties__bounty">
+                                <div className="bounties__bountyleft">
+                                    <div className="bounties__bountyhead">
+                                        {
+                                            bounty.bounty.account
+                                                .bountyDescription
+                                        }
+                                    </div>
+                                    <div className="bounties__bountydao">
+                                        {bounty.daoName} |{" "}
+                                        <span className="bounties__bountyamount">
+                                            {bounty.bounty.account.amount.toNumber() /
+                                                USDC_DECIMALS}{" "}
+                                            USDC
+                                        </span>
+                                    </div>
+                                </div>
+                                <button className="bounties__managebtn">
+                                    Manage
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                )}
             </div>
         </div>
     );
