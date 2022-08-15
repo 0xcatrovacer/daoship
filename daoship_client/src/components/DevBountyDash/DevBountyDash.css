@@ -88,14 +88,22 @@
     color: rgb(255, 204, 0);
 }
 
+.status__approved {
+    color: rgb(0, 128, 255);
+}
+
+.status__submitted {
+    color: rgb(149, 103, 255);
+}
+
+.status__accepted {
+    color: rgb(0, 255, 0);
+}
+
 .devapproved__cont {
     display: flex;
     flex-direction: row;
     align-items: center;
-}
-
-.status__approved {
-    color: rgb(0, 128, 255);
 }
 
 .devapproved__button {
@@ -114,10 +122,6 @@
 .devapproved__button:hover {
     background-color: transparent;
     color: rgb(0, 255, 174);
-}
-
-.status__accepted {
-    color: rgb(0, 255, 0);
 }
 
 .devbountyright__applybtn {

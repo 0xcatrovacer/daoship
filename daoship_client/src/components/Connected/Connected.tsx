@@ -140,6 +140,7 @@ function Connected({ program, provider }: ConnectedProps) {
                     projectPda={projectPda}
                     payload={payload}
                     program={program}
+                    provider={provider}
                     setDisplayType={setDisplayType}
                 />
             )}

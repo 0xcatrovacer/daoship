@@ -219,10 +219,20 @@
 .managedbounty__deets {
     font-size: 24px;
     display: flex;
+    justify-content: space-between;
     flex-direction: row;
     font-family: "Open Sans";
     font-weight: 800;
     color: rgb(0, 255, 174);
+}
+
+.managebounty__desc {
+    margin-right: 10px;
+    width: 400px;
+}
+
+.managedbounty__amount {
+    margin-left: 10px;
 }
 
 .managedbounty__daoname {

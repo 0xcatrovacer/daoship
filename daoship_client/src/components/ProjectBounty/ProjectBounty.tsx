@@ -1,7 +1,19 @@
-import { Address, BN, Program, utils, web3 } from "@project-serum/anchor";
-import { getAssociatedTokenAddress, TOKEN_PROGRAM_ID } from "@solana/spl-token";
+import {
+    Address,
+    AnchorProvider,
+    BN,
+    Program,
+    utils,
+    web3,
+} from "@project-serum/anchor";
+import {
+    createAssociatedTokenAccountInstruction,
+    getAccount,
+    getAssociatedTokenAddress,
+    TOKEN_PROGRAM_ID,
+} from "@solana/spl-token";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { PublicKey } from "@solana/web3.js";
+import { PublicKey, Transaction } from "@solana/web3.js";
 import { useEffect, useState } from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { USDC_DECIMALS, USDC_MINT } from "../../constants";
@@ -12,6 +24,7 @@ type ProjectBountyProps = {
     projectPda: PublicKey;
     payload: Record<any, string>;
     program: Program;
+    provider: AnchorProvider;
     setDisplayType: (displayType: string) => void;
 };
 
@@ -19,6 +32,7 @@ function ProjectBounty({
     projectPda,
     payload,
     program,
+    provider,
     setDisplayType,
 }: ProjectBountyProps) {
     const [isFormVisible, setIsFormVisible] = useState(false);
@@ -32,6 +46,7 @@ function ProjectBounty({
         useState<string>("all_bounties");
     const [managedBounty, setManagedBounty] = useState<any>();
     const [bountyApplications, setBountyApplications] = useState<any>([]);
+    const [acceptApplications, setAcceptApplications] = useState<any>([]);
 
     const { publicKey } = useWallet();
 
@@ -99,24 +114,77 @@ function ProjectBounty({
     };
 
     const handleApproveDev = async (application: any) => {
-        await program.methods
-            .approveUserForBounty()
-            .accounts({
-                bountyApplication: application.application.publicKey,
-                bounty: application.application.account.bounty,
-                project: projectPda,
-                user: application.application.account.user,
-                authority: publicKey as PublicKey,
-            })
-            .signers([])
-            .rpc();
+        try {
+            await program.methods
+                .approveUserForBounty()
+                .accounts({
+                    bountyApplication: application.application.publicKey,
+                    bounty: application.application.account.bounty,
+                    project: projectPda,
+                    user: application.application.account.user,
+                    authority: publicKey as PublicKey,
+                })
+                .signers([])
+                .rpc();
 
-        const approvedApplication =
-            await program.account.bountyApplication.fetch(
-                application.application.publicKey
+            const approvedApplication =
+                await program.account.bountyApplication.fetch(
+                    application.application.publicKey
+                );
+
+            console.log(approvedApplication);
+        } catch (e) {
+            throw new Error(`Failed to approve developer: ${e}`);
+        }
+    };
+
+    const handleAcceptSubmission = async (application: any) => {
+        try {
+            console.log(application);
+
+            const bounty = await program.account.bounty.fetch(
+                application.application.account.bounty
             );
 
-        console.log(approvedApplication);
+            const [bountyVaultAuthority, _vaultAuthorityBump] =
+                await web3.PublicKey.findProgramAddress(
+                    [Buffer.from("bounty-escrow")],
+                    program.programId
+                );
+
+            console.log(bounty);
+
+            const usdcMint = new PublicKey(USDC_MINT);
+
+            await program.methods
+                .acceptBountySubmission()
+                .accounts({
+                    bountyApplication: application.application.publicKey,
+                    bounty: application.application.account.bounty,
+                    project: projectPda,
+                    dao: bounty.dao as PublicKey,
+                    user: application.application.account.user,
+                    authority: publicKey as PublicKey,
+                    tokenMint: usdcMint,
+                    bountyVaultTokenAccount:
+                        bounty.bountyVaultAccount as PublicKey,
+                    userTokenAccount:
+                        application.application.account.userTokenAccount,
+                    vaultAuthority: bountyVaultAuthority,
+                    tokenProgram: TOKEN_PROGRAM_ID,
+                })
+                .signers([])
+                .rpc();
+
+            const acceptedApplication =
+                await program.account.bountyApplication.fetch(
+                    application.application.publicKey
+                );
+
+            console.log(acceptedApplication);
+        } catch (e) {
+            throw new Error(`Error accepting submission: ${e}`);
+        }
     };
 
     const callFn = async () => {
@@ -189,22 +257,39 @@ function ProjectBounty({
         console.log("applications", applications);
 
         const managedApplications: Array<any> = [];
+        const submitted: Array<any> = [];
 
         applications.map(async (application: any) => {
             const dev: any = await program.account.user.fetch(
                 application.account.user as PublicKey
             );
 
-            managedApplications.push({
-                application,
-                devName: dev.displayName,
-                devRep: dev.reputation.toNumber(),
-            });
+            if (
+                JSON.stringify(application.account.applicationStatus) ===
+                JSON.stringify({ noUpdate: {} })
+            ) {
+                managedApplications.push({
+                    application,
+                    devName: dev.displayName,
+                    devRep: dev.reputation.toNumber(),
+                });
+            } else if (
+                JSON.stringify(application.account.applicationStatus) ===
+                JSON.stringify({ submitted: {} })
+            ) {
+                submitted.push({
+                    application,
+                    devName: dev.displayName,
+                    devRep: dev.reputation.toNumber(),
+                });
+            }
         });
 
         setTimeout(() => {
             console.log("bountyApplications", managedApplications);
+            console.log("acceptApplications", submitted);
             setBountyApplications(managedApplications);
+            setAcceptApplications(submitted);
         }, 400);
     };
 
@@ -297,46 +382,48 @@ function ProjectBounty({
                             </div>
                         )}
                     </div>
-                    <div className="projectbounty__createdbountiescont">
-                        <div className="projbounty__cbhead">
-                            Created Bounties
-                        </div>
-                        {bounties && (
-                            <div className="bounties__cont">
-                                {bounties.map((bounty: any) => (
-                                    <div className="bounties__bounty">
-                                        <div className="bounties__bountyleft">
-                                            <div className="bounties__bountyhead">
-                                                {
-                                                    bounty.bounty.account
-                                                        .bountyDescription
-                                                }
-                                            </div>
-                                            <div className="bounties__bountydao">
-                                                {bounty.daoName} |{" "}
-                                                <span className="bounties__bountyamount">
-                                                    {bounty.bounty.account.amount.toNumber() /
-                                                        USDC_DECIMALS}{" "}
-                                                    USDC
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <button
-                                            className="bounties__managebtn"
-                                            onClick={() => {
-                                                setBountyDisplayType(
-                                                    "manage_bounty"
-                                                );
-                                                setManagedBounty(bounty);
-                                            }}
-                                        >
-                                            Manage
-                                        </button>
-                                    </div>
-                                ))}
+                    {bounties.length !== 0 && (
+                        <div className="projectbounty__createdbountiescont">
+                            <div className="projbounty__cbhead">
+                                Created Bounties
                             </div>
-                        )}
-                    </div>
+                            {bounties && (
+                                <div className="bounties__cont">
+                                    {bounties.map((bounty: any) => (
+                                        <div className="bounties__bounty">
+                                            <div className="bounties__bountyleft">
+                                                <div className="bounties__bountyhead">
+                                                    {
+                                                        bounty.bounty.account
+                                                            .bountyDescription
+                                                    }
+                                                </div>
+                                                <div className="bounties__bountydao">
+                                                    {bounty.daoName} |{" "}
+                                                    <span className="bounties__bountyamount">
+                                                        {bounty.bounty.account.amount.toNumber() /
+                                                            USDC_DECIMALS}{" "}
+                                                        USDC
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <button
+                                                className="bounties__managebtn"
+                                                onClick={() => {
+                                                    setBountyDisplayType(
+                                                        "manage_bounty"
+                                                    );
+                                                    setManagedBounty(bounty);
+                                                }}
+                                            >
+                                                Manage
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </span>
             )}
             {bountyDisplayType === "manage_bounty" && (
@@ -358,7 +445,7 @@ function ProjectBounty({
                                             .bountyDescription
                                     }
                                 </span>
-                                |
+
                                 <span className="managedbounty__amount">
                                     {managedBounty.bounty.account.amount.toNumber() /
                                         USDC_DECIMALS}{" "}
@@ -369,6 +456,44 @@ function ProjectBounty({
                                 {managedBounty.daoName}
                             </div>
                             <div className="bountyapplicationsx">
+                                {acceptApplications.length !== 0 && (
+                                    <div className="bountyapplications__cont">
+                                        <div className="applicationsx__head">
+                                            Accept Requests
+                                        </div>
+                                        <div className="bountyapplications__head">
+                                            {acceptApplications.map(
+                                                (application: any) => (
+                                                    <div className="managedapplication__cont">
+                                                        <div className="managedapplication__left">
+                                                            <div className="managedapplication__devname">
+                                                                {
+                                                                    application.devName
+                                                                }
+                                                            </div>
+                                                            <div className="managedapplication__devrep">
+                                                                Reputation:{" "}
+                                                                {
+                                                                    application.devRep
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                        <button
+                                                            className="managedapplication__approve"
+                                                            onClick={() => {
+                                                                handleAcceptSubmission(
+                                                                    application
+                                                                );
+                                                            }}
+                                                        >
+                                                            Accept
+                                                        </button>
+                                                    </div>
+                                                )
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
                                 {bountyApplications.length !== 0 && (
                                     <div className="bountyapplications__cont">
                                         <div className="applicationsx__head">
