@@ -33,7 +33,7 @@ pub struct BountyApplication {
 pub enum BountyStatus {
     NoUpdate,
     Approved,
-    Rejected,
+    Submitted,
     Accepted,
 }
 

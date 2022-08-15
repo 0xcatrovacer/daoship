@@ -45,6 +45,7 @@ pub fn handler(ctx: Context<SubmitBountyForReview>, submission_link: String) -> 
 
 
     bounty_application.submission_link = submission_link;
+    bounty_application.application_status = BountyStatus::Submitted;
     user.reputation += COMPLETE_BOUNTY_REP;
 
     Ok(())
