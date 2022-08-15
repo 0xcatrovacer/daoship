@@ -39,6 +39,8 @@ function OnboardDev({ setDisplayType, program, provider }: OnboardOptionProps) {
 
             console.log(createdUser);
             setDisplayType("is_user");
+
+            window.location.reload();
         } catch (e) {
             throw new Error(`Error creating user: ${e}`);
         }

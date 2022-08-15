@@ -77,6 +77,8 @@ function OnboardDao({ setDisplayType, program, provider }: OnboardOptionProps) {
             console.log(createdDAO);
 
             setDisplayType("is_dao");
+
+            window.location.reload();
         } catch (e) {
             throw new Error(`Error creating DAO: ${e}`);
         }

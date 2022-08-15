@@ -53,6 +53,8 @@ function ProjectWhitelist({
                 await program.account.projectWhitelist.fetch(projectWl);
 
             console.log(projectWhitelist);
+
+            window.location.reload();
         } catch (e) {
             throw new Error(`Error while applying for project whitelist: ${e}`);
         }

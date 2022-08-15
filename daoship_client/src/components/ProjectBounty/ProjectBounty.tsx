@@ -113,6 +113,8 @@ function ProjectBounty({
 
         const createdBounty = await program.account.bounty.fetch(bounty);
         console.log(createdBounty);
+
+        window.location.reload();
     };
 
     const handleApproveDev = async (application: any) => {
@@ -135,6 +137,8 @@ function ProjectBounty({
                 );
 
             console.log(approvedApplication);
+
+            window.location.reload();
         } catch (e) {
             throw new Error(`Failed to approve developer: ${e}`);
         }
@@ -184,6 +188,8 @@ function ProjectBounty({
                 );
 
             console.log(acceptedApplication);
+
+            window.location.reload();
         } catch (e) {
             throw new Error(`Error accepting submission: ${e}`);
         }

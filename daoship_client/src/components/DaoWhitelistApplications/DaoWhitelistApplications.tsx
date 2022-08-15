@@ -39,6 +39,7 @@ function DaoWhitelistApplications({
         );
 
         console.log(whitelistedProject);
+        window.location.reload();
     };
 
     const callFn = async () => {

@@ -68,6 +68,7 @@ function DevBountyDash({
         );
 
         console.log("application", application);
+        window.location.reload();
     };
 
     const handleApplyBounty = async (bounty: any) => {
@@ -122,6 +123,8 @@ function DevBountyDash({
             await program.account.bountyApplication.fetch(bountyApplication);
 
         console.log(createdApplication);
+
+        window.location.reload();
     };
 
     const callFn = async () => {

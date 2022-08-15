@@ -77,6 +77,8 @@ function OnboardProject({
 
             console.log(createdProject);
             setDisplayType("is_project");
+
+            window.location.reload();
         } catch (e) {
             throw new Error(`Error creating project: ${e}`);
         }
