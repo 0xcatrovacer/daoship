@@ -179,7 +179,19 @@ function DevBountyDash({
                 },
             ]);
 
-            if (flag == "applied") {
+            if (bounty.account.isCompleted) {
+                if (
+                    JSON.stringify(application[0].account.applicationStatus) ===
+                    JSON.stringify({ accepted: {} })
+                ) {
+                    accepted.push({
+                        bounty,
+                        daoName: dao.name,
+                        projectName: project.name,
+                        status: application[0].account.applicationStatus,
+                    });
+                }
+            } else if (flag == "applied") {
                 if (
                     JSON.stringify(application[0].account.applicationStatus) ===
                     JSON.stringify({ noUpdate: {} })
@@ -210,16 +222,6 @@ function DevBountyDash({
                         projectName: project.name,
                         status: application[0].account.applicationStatus,
                     });
-                } else if (
-                    JSON.stringify(application[0].account.applicationStatus) ===
-                    JSON.stringify({ accepted: {} })
-                ) {
-                    accepted.push({
-                        bounty,
-                        daoName: dao.name,
-                        projectName: project.name,
-                        status: application[0].account.applicationStatus,
-                    });
                 }
             } else if (flag === "available") {
                 addBounties.push({
@@ -241,7 +243,7 @@ function DevBountyDash({
             setApprovedBounties(approved);
             setSubmittedBounties(submitted);
             setAcceptedBounties(accepted);
-        }, 600);
+        }, 700);
     };
 
     useEffect(() => {
@@ -252,7 +254,10 @@ function DevBountyDash({
         <div className="devbountydash__cont">
             <div className="devbountydash__head">Bounty Dashboard</div>
 
-            {appliedBounties.length !== 0 && (
+            {appliedBounties.length +
+                approvedBounties.length +
+                submittedBounties.length !==
+                0 && (
                 <div className="devbountydash__bounties">
                     <div className="availablebounties__head">
                         Applied Bounties

@@ -200,6 +200,17 @@
     color: rgb(0, 255, 174);
 }
 
+.bounty__winner {
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+}
+
+.bountywinner__pubkey {
+    margin-left: 20px;
+    color: rgba(255, 255, 255, 0.404);
+}
+
 .arrowback {
     height: 35px;
     width: 35px;
@@ -228,7 +239,7 @@
 
 .managebounty__desc {
     margin-right: 10px;
-    width: 400px;
+    width: 600px;
 }
 
 .managedbounty__amount {

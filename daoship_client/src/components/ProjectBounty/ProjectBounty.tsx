@@ -19,6 +19,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { USDC_DECIMALS, USDC_MINT } from "../../constants";
 
 import "./ProjectBounty.css";
+import { getTruncatedPubkey } from "../../utils";
 
 type ProjectBountyProps = {
     projectPda: PublicKey;
@@ -42,6 +43,7 @@ function ProjectBounty({
     const [bountyAmount, setBountyAmount] = useState<any>();
     const [projectWhitelist, setProjectWhitelist] = useState<string>();
     const [bounties, setBounties] = useState<any>();
+    const [completedBounties, setCompletedBounties] = useState<any>();
     const [bountyDisplayType, setBountyDisplayType] =
         useState<string>("all_bounties");
     const [managedBounty, setManagedBounty] = useState<any>();
@@ -227,20 +229,23 @@ function ProjectBounty({
         console.log("createdBounties", createdBounties);
 
         const addBounties: any = [];
+        const complBounties: Array<any> = [];
 
         createdBounties.map(async (bounty) => {
             const dao: any = await program.account.dao.fetch(
                 bounty.account.dao as Address
             );
-
-            addBounties.push({ bounty, daoName: dao.name });
+            !bounty.account.isCompleted
+                ? addBounties.push({ bounty, daoName: dao.name })
+                : complBounties.push({ bounty, daoName: dao.name });
         });
 
         setTimeout(() => {
-            console.log("whitelistsArray", whitelistsArray);
+            console.log("completedBounties", complBounties);
             setDaoPubkey(whitelistsArray[0].daoPubkey.toBase58());
             setProjectWhitelist(whitelistsArray[0].projectWhitelist.toBase58());
             setBounties(addBounties);
+            setCompletedBounties(complBounties);
         }, 200);
     };
 
@@ -382,7 +387,7 @@ function ProjectBounty({
                             </div>
                         )}
                     </div>
-                    {bounties.length !== 0 && (
+                    {bounties && bounties.length !== 0 && (
                         <div className="projectbounty__createdbountiescont">
                             <div className="projbounty__cbhead">
                                 Created Bounties
@@ -418,6 +423,46 @@ function ProjectBounty({
                                             >
                                                 Manage
                                             </button>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    )}
+
+                    {completedBounties && completedBounties.length !== 0 && (
+                        <div className="projectbounty__createdbountiescont">
+                            <div className="projbounty__cbhead">
+                                Completed Bounties
+                            </div>
+                            {completedBounties && (
+                                <div className="bounties__cont">
+                                    {completedBounties.map((bounty: any) => (
+                                        <div className="bounties__bounty">
+                                            <div className="bounties__bountyleft">
+                                                <div className="bounties__bountyhead">
+                                                    {
+                                                        bounty.bounty.account
+                                                            .bountyDescription
+                                                    }
+                                                </div>
+                                                <div className="bounties__bountydao">
+                                                    {bounty.daoName} |{" "}
+                                                    <span className="bounties__bountyamount">
+                                                        {bounty.bounty.account.amount.toNumber() /
+                                                            USDC_DECIMALS}{" "}
+                                                        USDC
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div className="bounty__winner">
+                                                Won By:
+                                                <span className="bountywinner__pubkey">
+                                                    {getTruncatedPubkey(
+                                                        bounty.bounty.account.bountyWinner.toBase58()
+                                                    )}
+                                                </span>
+                                            </div>
                                         </div>
                                     ))}
                                 </div>
