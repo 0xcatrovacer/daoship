@@ -7,7 +7,7 @@ mod state;
 
 use instructions::*;
 
-declare_id!("9Jsfy18hxoXx1qWcWDRp9X6MF87bx1YRBznm41tFTyEh");
+declare_id!("AViZiugVMCXZw7AgH2EZGjC4QA4dDiXkKU1x8rvWciZM");
 
 #[program]
 pub mod daoship_programs {

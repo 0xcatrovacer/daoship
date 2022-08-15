@@ -707,6 +707,11 @@
                         "type": "publicKey"
                     },
                     {
+                        "name": "id",
+                        "docs": ["Id of bounty"],
+                        "type": "u64"
+                    },
+                    {
                         "name": "bountyVaultMint",
                         "docs": ["Bounty Vault Mint"],
                         "type": "publicKey"
@@ -1086,7 +1091,7 @@
                         "name": "Approved"
                     },
                     {
-                        "name": "Rejected"
+                        "name": "Submitted"
                     },
                     {
                         "name": "Accepted"
@@ -1143,6 +1148,6 @@
         }
     ],
     "metadata": {
-        "address": "9Jsfy18hxoXx1qWcWDRp9X6MF87bx1YRBznm41tFTyEh"
+        "address": "AViZiugVMCXZw7AgH2EZGjC4QA4dDiXkKU1x8rvWciZM"
     }
 }
