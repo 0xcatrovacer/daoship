@@ -199,3 +199,92 @@
     background-color: transparent;
     color: rgb(0, 255, 174);
 }
+
+.arrowback {
+    height: 35px;
+    width: 35px;
+    background-color: rgb(32, 32, 42);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100px;
+}
+
+.managedbounty__cont {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.managedbounty__deets {
+    font-size: 24px;
+    display: flex;
+    flex-direction: row;
+    font-family: "Open Sans";
+    font-weight: 800;
+    color: rgb(0, 255, 174);
+}
+
+.managedbounty__daoname {
+    margin-top: 10px;
+    font-size: 20px;
+}
+
+.bountyapplicationsx {
+    margin-top: 30px;
+}
+
+.applicationsx__head {
+    font-family: "Open Sans";
+    color: rgb(0, 255, 174);
+    font-size: 24px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.bountyapplications__cont {
+    margin-top: 10px;
+}
+
+.managedapplication__cont {
+    margin-top: 10px;
+    background-color: rgb(32, 32, 42);
+    padding: 30px 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.managedapplication__left {
+    display: flex;
+    flex-direction: row;
+    font-size: 20px;
+}
+
+.managedapplication__devname {
+    color: rgb(198, 106, 255);
+    width: 250px;
+}
+
+.managedapplication__devrep {
+    margin-left: 30px;
+}
+
+.managedapplication__approve {
+    font-size: 16px;
+    width: 150px;
+    height: 40px;
+    background-color: rgb(0, 255, 174);
+    border-radius: 81px;
+    border: 3px solid rgb(0, 255, 174);
+    cursor: pointer;
+    font-family: Ubuntu;
+    font-weight: 600;
+}
+
+.managedapplication__approve:hover {
+    background-color: transparent;
+    color: rgb(0, 255, 174);
+}

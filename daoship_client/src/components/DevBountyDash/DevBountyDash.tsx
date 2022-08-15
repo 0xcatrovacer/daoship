@@ -212,9 +212,14 @@ function DevBountyDash({
                                     </span>
                                 )}
                                 {bounty.status.approved && (
-                                    <span className="status__approved">
-                                        Approved
-                                    </span>
+                                    <div className="devapproved__cont">
+                                        <span className="status__approved">
+                                            Approved
+                                        </span>
+                                        <button className="devapproved__button">
+                                            Submit
+                                        </button>
+                                    </div>
                                 )}
                                 {bounty.status.accepted && (
                                     <span className="status__accepted">
