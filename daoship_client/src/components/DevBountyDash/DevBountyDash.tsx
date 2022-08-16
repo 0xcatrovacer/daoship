@@ -7,6 +7,7 @@ import {
 } from "@project-serum/anchor";
 import { PublicKey, Transaction } from "@solana/web3.js";
 import React, { useEffect, useState } from "react";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useWallet } from "@solana/wallet-adapter-react";
 import {
     createAssociatedTokenAccountInstruction,
@@ -255,6 +256,14 @@ function DevBountyDash({
 
     return (
         <div className="devbountydash__cont">
+            <div className="arrowback">
+                <ArrowBackIcon
+                    onClick={() => {
+                        setDisplayType("is_user");
+                    }}
+                    style={{ cursor: "pointer" }}
+                />
+            </div>
             <div className="devbountydash__head">Bounty Dashboard</div>
 
             {appliedBounties.length +

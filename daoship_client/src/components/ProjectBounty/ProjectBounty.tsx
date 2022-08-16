@@ -314,6 +314,14 @@ function ProjectBounty({
 
     return (
         <div className="projectbounty__cont">
+            <div className="arrowback">
+                <ArrowBackIcon
+                    onClick={() => {
+                        setDisplayType("is_project");
+                    }}
+                    style={{ cursor: "pointer" }}
+                />
+            </div>
             <div className="projectbounty__head">Bounty Dashboard</div>
             {bountyDisplayType === "all_bounties" && (
                 <span>

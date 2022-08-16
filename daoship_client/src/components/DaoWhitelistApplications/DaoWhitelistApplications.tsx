@@ -2,6 +2,7 @@ import { Program, web3 } from "@project-serum/anchor";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { PublicKey } from "@solana/web3.js";
 import React, { useEffect, useState } from "react";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { getTruncatedPubkey } from "../../utils";
 
 import "./DaoWhitelistApplications.css";
@@ -9,13 +10,15 @@ import "./DaoWhitelistApplications.css";
 type WhitelistApplicationProps = {
     program: Program;
     daoPda: PublicKey;
+    setDisplayType: (displayType: string) => void;
 };
 
 function DaoWhitelistApplications({
     program,
     daoPda,
+    setDisplayType,
 }: WhitelistApplicationProps) {
-    const [whitelistProjects, setWhitelistProjects] = useState<any>();
+    const [whitelistProjects, setWhitelistProjects] = useState<any>([]);
 
     const { publicKey } = useWallet();
 
@@ -81,9 +84,21 @@ function DaoWhitelistApplications({
 
     return (
         <div className="whitelistapp__cont">
+            <div className="arrowback">
+                <ArrowBackIcon
+                    onClick={() => {
+                        setDisplayType("is_dao");
+                    }}
+                    style={{ cursor: "pointer" }}
+                />
+            </div>
             <div className="whitelistapp__head">Whitelist Applications</div>
             <div className="whitelistapp__projectcont">
+                {whitelistProjects.length === 0 && (
+                    <span>No project has applied for whitelist yet</span>
+                )}
                 {whitelistProjects &&
+                    whitelistProjects.length !== 0 &&
                     whitelistProjects.map((project: any) => (
                         <div className="whitelistapp__project">
                             <div className="whitelistapp__projdeets">

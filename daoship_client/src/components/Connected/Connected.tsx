@@ -119,7 +119,11 @@ function Connected({ program, provider }: ConnectedProps) {
                 />
             )}
             {displayType === "whitelist_applications" && (
-                <DaoWhitelistApplications program={program} daoPda={daoPda} />
+                <DaoWhitelistApplications
+                    program={program}
+                    daoPda={daoPda}
+                    setDisplayType={setDisplayType}
+                />
             )}
             {displayType === "is_project" && (
                 <ProjectDashboard

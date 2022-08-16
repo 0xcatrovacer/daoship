@@ -214,11 +214,13 @@
 .arrowback {
     height: 35px;
     width: 35px;
-    background-color: rgb(32, 32, 42);
+    background-color: rgb(0, 255, 174);
+    color: black;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 100px;
+    margin-bottom: 20px;
 }
 
 .managedbounty__cont {

@@ -2,6 +2,7 @@ import { AnchorProvider, Program, utils, web3 } from "@project-serum/anchor";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { PublicKey } from "@solana/web3.js";
 import React, { useEffect, useState } from "react";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { getTruncatedPubkey } from "../../utils";
 
 import "./ProjectWhitelist.css";
@@ -113,7 +114,15 @@ function ProjectWhitelist({
 
     return (
         <div className="projectwl__cont">
-            {whitelistedBy.length !== 0 && (
+            <div className="arrowback">
+                <ArrowBackIcon
+                    onClick={() => {
+                        setDisplayType("is_project");
+                    }}
+                    style={{ cursor: "pointer" }}
+                />
+            </div>
+            {whitelistedBy && whitelistedBy.length !== 0 && (
                 <div className="projectwl__wltedcont">
                     <div className="projectwlted__head">
                         Already Whitelisted
