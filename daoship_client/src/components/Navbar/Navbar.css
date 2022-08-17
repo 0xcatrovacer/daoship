@@ -13,6 +13,14 @@
     font-family: "Open Sans";
     font-weight: 800;
     letter-spacing: 0.05em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.navbar__logoimg {
+    height: 50px;
+    margin-right: 20px;
 }
 
 .navbar__right {

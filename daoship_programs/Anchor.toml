@@ -2,9 +2,9 @@
 seeds = false
 skip-lint = false
 [programs.localnet]
-daoship_programs = "AViZiugVMCXZw7AgH2EZGjC4QA4dDiXkKU1x8rvWciZM"
+daoship_programs = "CcDpgqXEcc268hstohTJW7KzswM2LkGsw9MV7aiANaR7"
 [programs.devnet]
-daoship_programs = "AViZiugVMCXZw7AgH2EZGjC4QA4dDiXkKU1x8rvWciZM"
+daoship_programs = "CcDpgqXEcc268hstohTJW7KzswM2LkGsw9MV7aiANaR7"
 
 [registry]
 url = "https://api.apr.dev"

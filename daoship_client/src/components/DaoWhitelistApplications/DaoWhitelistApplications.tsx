@@ -84,14 +84,14 @@ function DaoWhitelistApplications({
 
     return (
         <div className="whitelistapp__cont">
-            <div className="arrowback">
+            {/* <div className="arrowback">
                 <ArrowBackIcon
                     onClick={() => {
                         setDisplayType("is_dao");
                     }}
                     style={{ cursor: "pointer" }}
                 />
-            </div>
+            </div> */}
             <div className="whitelistapp__head">Whitelist Applications</div>
             <div className="whitelistapp__projectcont">
                 {whitelistProjects.length === 0 && (

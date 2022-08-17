@@ -252,7 +252,7 @@ function ProjectBounty({
             setProjectWhitelist(whitelistsArray[0].projectWhitelist.toBase58());
             setBounties(addBounties);
             setCompletedBounties(complBounties);
-        }, 200);
+        }, 300);
     };
 
     const manageBountyCallFn = async () => {
@@ -314,14 +314,14 @@ function ProjectBounty({
 
     return (
         <div className="projectbounty__cont">
-            <div className="arrowback">
+            {/* <div className="arrowback">
                 <ArrowBackIcon
                     onClick={() => {
                         setDisplayType("is_project");
                     }}
                     style={{ cursor: "pointer" }}
                 />
-            </div>
+            </div> */}
             <div className="projectbounty__head">Bounty Dashboard</div>
             {bountyDisplayType === "all_bounties" && (
                 <span>

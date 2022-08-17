@@ -53,6 +53,9 @@ function App() {
 
     const getProvider = () => {
         const connection = new Connection(networkUrl);
+        console.log(connection);
+        setConnection(connection);
+
         const provider = new AnchorProvider(
             connection,
             window.solana,
@@ -60,9 +63,7 @@ function App() {
         );
 
         console.log(provider);
-        console.log(connection);
 
-        setConnection(connection);
         return provider;
     };
 

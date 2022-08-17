@@ -114,14 +114,14 @@ function ProjectWhitelist({
 
     return (
         <div className="projectwl__cont">
-            <div className="arrowback">
+            {/* <div className="arrowback">
                 <ArrowBackIcon
                     onClick={() => {
                         setDisplayType("is_project");
                     }}
                     style={{ cursor: "pointer" }}
                 />
-            </div>
+            </div> */}
             {whitelistedBy && whitelistedBy.length !== 0 && (
                 <div className="projectwl__wltedcont">
                     <div className="projectwlted__head">

@@ -256,14 +256,14 @@ function DevBountyDash({
 
     return (
         <div className="devbountydash__cont">
-            <div className="arrowback">
+            {/* <div className="arrowback">
                 <ArrowBackIcon
                     onClick={() => {
                         setDisplayType("is_user");
                     }}
                     style={{ cursor: "pointer" }}
                 />
-            </div>
+            </div> */}
             <div className="devbountydash__head">Bounty Dashboard</div>
 
             {appliedBounties.length +

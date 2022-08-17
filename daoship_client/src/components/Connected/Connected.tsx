@@ -29,17 +29,18 @@ function Connected({ program, provider }: ConnectedProps) {
     const [projectPda, setProjectPda] = useState<any>();
     const [devPda, setDevPda] = useState<any>();
 
-    const wallet = useWallet();
+    const { publicKey }: any = useWallet();
 
     const findWalletType = async () => {
         try {
-            console.log(wallet.publicKey?.toBase58());
+            await publicKey;
+            console.log(publicKey.toBase58());
             try {
                 const [daoPDA, _daoBump] =
                     await web3.PublicKey.findProgramAddress(
                         [
                             utils.bytes.utf8.encode("dao"),
-                            wallet.publicKey?.toBuffer() as Buffer,
+                            publicKey.toBuffer() as Buffer,
                         ],
                         program.programId
                     );
@@ -55,7 +56,7 @@ function Connected({ program, provider }: ConnectedProps) {
                         await web3.PublicKey.findProgramAddress(
                             [
                                 utils.bytes.utf8.encode("project"),
-                                wallet.publicKey?.toBuffer() as Buffer,
+                                publicKey.toBuffer() as Buffer,
                             ],
                             program.programId
                         );
@@ -75,7 +76,7 @@ function Connected({ program, provider }: ConnectedProps) {
                             await web3.PublicKey.findProgramAddress(
                                 [
                                     utils.bytes.utf8.encode("user"),
-                                    wallet.publicKey?.toBuffer() as Buffer,
+                                    publicKey.toBuffer() as Buffer,
                                 ],
                                 program.programId
                             );
@@ -97,7 +98,9 @@ function Connected({ program, provider }: ConnectedProps) {
     };
 
     useEffect(() => {
-        findWalletType();
+        setTimeout(() => {
+            findWalletType();
+        }, 200);
     }, []);
 
     return (
